@@ -140,6 +140,20 @@ export function replay() {
   }
 }
 
+/** Seek to a percentage (0–100) within the current file. */
+export function seekTo(pct) {
+  if (player) {
+    silenceNotes();
+    player.skipToPercent(Math.max(0, Math.min(100, pct)));
+    if (currentState === 'paused') {
+      // stay paused but update position
+    } else {
+      player.play();
+      currentState = 'playing';
+    }
+  }
+}
+
 /** Stop and fully tear down the current playback. */
 export function stop() {
   if (player) {

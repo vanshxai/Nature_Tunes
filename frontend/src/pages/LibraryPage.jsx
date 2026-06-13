@@ -1,5 +1,5 @@
 import { useEffect, useState } from 'react';
-import { play, pause, resume, replay, stop, unlockAudio, preloadInstrument } from '../utils/midiPlayer';
+import { play, pause, resume, replay, stop, seekTo, unlockAudio, preloadInstrument } from '../utils/midiPlayer';
 
 // Resolve a manifest-relative path against Vite's base URL.
 function asset(path) {
@@ -140,8 +140,27 @@ export default function LibraryPage() {
 
         {isActive && (
           <div className="dash-progress">
-            <div className="dash-bar-wrap">
+            <div
+              className="dash-bar-wrap dash-bar-seek"
+              title="Click to seek"
+              onClick={(ev) => {
+                const rect = ev.currentTarget.getBoundingClientRect();
+                const pct = ((ev.clientX - rect.left) / rect.width) * 100;
+                unlockAudio();
+                seekTo(pct);
+                if (playState !== 'playing') setPlayState('playing');
+              }}
+              onMouseMove={(ev) => {
+                if (ev.buttons !== 1) return;
+                const rect = ev.currentTarget.getBoundingClientRect();
+                const pct = ((ev.clientX - rect.left) / rect.width) * 100;
+                unlockAudio();
+                seekTo(pct);
+                if (playState !== 'playing') setPlayState('playing');
+              }}
+            >
               <div className="dash-bar-fill" style={{ width: `${progress.pct}%` }} />
+              <div className="dash-bar-thumb" style={{ left: `${progress.pct}%` }} />
             </div>
             <span>{progress.time}</span>
           </div>

@@ -51,8 +51,9 @@
 .dash-notes { white-space: nowrap; }
 
 .dash-audio {
-  height: 30px;
-  max-width: 180px;
+  height: 32px;
+  width: 220px;
+  max-width: 100%;
   filter: invert(1) hue-rotate(100deg) brightness(.85);
 }
 
@@ -83,8 +84,28 @@
 .tbtn-stop:hover { background: #3a2020; border-color: #9a5a5a; }
 
 .dash-progress { display: flex; align-items: center; gap: 6px; font-size: 11px; color: var(--text-secondary, #6b8f6b); }
-.dash-bar-wrap { width: 70px; height: 4px; background: var(--border, #2a3f2a); border-radius: 2px; overflow: hidden; }
-.dash-bar-fill { height: 100%; background: #8a5acc; border-radius: 2px; transition: width .1s linear; }
+.dash-bar-wrap {
+  position: relative;
+  width: 110px; height: 6px;
+  background: var(--border, #2a3f2a);
+  border-radius: 3px;
+  overflow: visible;
+}
+.dash-bar-seek {
+  cursor: pointer;
+}
+.dash-bar-seek:hover { background: #3a4f3a; }
+.dash-bar-fill { height: 100%; background: #8a5acc; border-radius: 3px; transition: width .05s linear; }
+.dash-bar-thumb {
+  position: absolute;
+  top: 50%; transform: translate(-50%, -50%);
+  width: 10px; height: 10px;
+  border-radius: 50%;
+  background: #c8a0f0;
+  border: 2px solid #8a5acc;
+  pointer-events: none;
+  transition: left .05s linear;
+}
 
 /* download */
 .btn-dl {
