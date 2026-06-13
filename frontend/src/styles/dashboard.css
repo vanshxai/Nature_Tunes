@@ -68,6 +68,19 @@
 .btn-midi:hover { background: #213548; border-color: #5a9acc; }
 .btn-midi.playing { background: #2a1a3a; border-color: #8a5acc; color: #c8a0f0; }
 
+/* transport (pause / resume / replay / stop) */
+.midi-transport { display: inline-flex; gap: 4px; }
+.tbtn {
+  display: inline-flex; align-items: center; justify-content: center;
+  width: 30px; height: 30px; border-radius: 6px; font-size: 13px;
+  cursor: pointer; line-height: 1;
+  background: #1a2a3a; border: 1px solid #3a6a9a; color: #8ac8f0;
+  transition: background .15s, border-color .15s, color .15s;
+}
+.tbtn:hover { background: #213548; border-color: #5a9acc; }
+.tbtn-stop { background: #2a1a1a; border-color: #6a3a3a; color: #e0a0a0; }
+.tbtn-stop:hover { background: #3a2020; border-color: #9a5a5a; }
+
 .dash-progress { display: flex; align-items: center; gap: 6px; font-size: 11px; color: var(--text-secondary, #6b8f6b); }
 .dash-bar-wrap { width: 70px; height: 4px; background: var(--border, #2a3f2a); border-radius: 2px; overflow: hidden; }
 .dash-bar-fill { height: 100%; background: #8a5acc; border-radius: 2px; transition: width .1s linear; }

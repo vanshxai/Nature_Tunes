@@ -1,5 +1,5 @@
 import { useEffect, useState } from 'react';
-import { playMidi, stopMidi } from '../utils/midiPlayer';
+import { play, pause, resume, replay, stop } from '../utils/midiPlayer';
 
 // Resolve a manifest-relative path against Vite's base URL.
 function asset(path) {
@@ -10,7 +10,8 @@ function asset(path) {
 export default function LibraryPage() {
   const [manifest, setManifest] = useState(null);
   const [error, setError] = useState(null);
-  const [playingKey, setPlayingKey] = useState(null);
+  const [activeKey, setActiveKey] = useState(null);     // slug currently loaded
+  const [playState, setPlayState] = useState('idle');    // 'idle' | 'playing' | 'paused'
   const [progress, setProgress] = useState({ pct: 0, time: '0:00' });
 
   useEffect(() => {
@@ -23,7 +24,7 @@ export default function LibraryPage() {
       .catch((e) => setError(e.message));
 
     // Stop any MIDI when leaving the page
-    return () => stopMidi();
+    return () => stop();
   }, []);
 
   function fmt(sec) {
@@ -31,24 +32,52 @@ export default function LibraryPage() {
     return `${m}:${String(Math.floor(sec % 60)).padStart(2, '0')}`;
   }
 
-  async function handleMidi(slug, midUrl) {
+  function resetUi() {
+    setActiveKey(null);
+    setPlayState('idle');
+    setProgress({ pct: 0, time: '0:00' });
+  }
+
+  async function handlePlay(slug, midUrl) {
     try {
-      await playMidi(
-        slug,
-        midUrl,
-        {
-          onProgress: (pct, elapsed) =>
-            setProgress({ pct, time: fmt(elapsed) }),
-          onEnd: () => { setPlayingKey(null); setProgress({ pct: 0, time: '0:00' }); },
-        },
-      );
-      // playMidi toggles: if it stopped the same row, currentlyPlaying is null
-      setPlayingKey((prev) => (prev === slug ? null : slug));
+      await play(slug, midUrl, {
+        onProgress: (pct, elapsed) => setProgress({ pct, time: fmt(elapsed) }),
+        onEnd: () => resetUi(),
+      });
+      setActiveKey(slug);
+      setPlayState('playing');
       setProgress({ pct: 0, time: '0:00' });
     } catch (e) {
       alert('Could not play MIDI: ' + e.message);
-      setPlayingKey(null);
+      resetUi();
     }
+  }
+
+  function handlePause() {
+    pause();
+    setPlayState('paused');
+  }
+
+  function handleResume() {
+    resume();
+    setPlayState('playing');
+  }
+
+  function handleReplay() {
+    replay();
+    setPlayState('playing');
+    setProgress({ pct: 0, time: '0:00' });
+  }
+
+  function handleStop() {
+    stop();
+    resetUi();
+  }
+
+  // Stop MIDI when an <audio> element starts playing.
+  function onAudioPlay() {
+    stop();
+    resetUi();
   }
 
   if (error) {
@@ -71,6 +100,44 @@ export default function LibraryPage() {
           <div>Loading library…</div>
         </div>
       </main>
+    );
+  }
+
+  function renderMidiCell(e) {
+    if (!e.mid) return <span className="dash-dim">— no MIDI</span>;
+
+    const isActive = activeKey === e.slug;
+    const midUrl = asset(e.mid);
+
+    return (
+      <div className="dash-midi-cell">
+        {!isActive ? (
+          <button className="btn-midi" onClick={() => handlePlay(e.slug, midUrl)}>
+            🎹 Play
+          </button>
+        ) : (
+          <div className="midi-transport">
+            {playState === 'playing' ? (
+              <button className="tbtn" title="Pause" onClick={handlePause}>⏸</button>
+            ) : (
+              <button className="tbtn" title="Resume" onClick={handleResume}>▶</button>
+            )}
+            <button className="tbtn" title="Replay from start" onClick={handleReplay}>⟳</button>
+            <button className="tbtn tbtn-stop" title="Stop" onClick={handleStop}>⏹</button>
+          </div>
+        )}
+
+        <span className="dash-dim dash-notes">{e.notes} notes</span>
+
+        {isActive && (
+          <div className="dash-progress">
+            <div className="dash-bar-wrap">
+              <div className="dash-bar-fill" style={{ width: `${progress.pct}%` }} />
+            </div>
+            <span>{progress.time}</span>
+          </div>
+        )}
+      </div>
     );
   }
 
@@ -125,7 +192,7 @@ export default function LibraryPage() {
                       controls
                       preload="none"
                       className="dash-audio"
-                      onPlay={() => { stopMidi(); setPlayingKey(null); }}
+                      onPlay={onAudioPlay}
                       src={asset(e.mp3)}
                     />
                   ) : (
@@ -133,36 +200,14 @@ export default function LibraryPage() {
                   )}
                 </td>
                 <td className="dash-dim">{e.duration || '—'}</td>
-                <td>
-                  {e.mid ? (
-                    <div className="dash-midi-cell">
-                      <button
-                        className={'btn-midi' + (playingKey === e.slug ? ' playing' : '')}
-                        onClick={() => handleMidi(e.slug, asset(e.mid))}
-                      >
-                        {playingKey === e.slug ? '⏹ Stop' : '🎹 Play MIDI'}
-                      </button>
-                      <span className="dash-dim dash-notes">{e.notes} notes</span>
-                      {playingKey === e.slug && (
-                        <div className="dash-progress">
-                          <div className="dash-bar-wrap">
-                            <div className="dash-bar-fill" style={{ width: `${progress.pct}%` }} />
-                          </div>
-                          <span>{progress.time}</span>
-                        </div>
-                      )}
-                    </div>
-                  ) : (
-                    <span className="dash-dim">— no MIDI</span>
-                  )}
-                </td>
+                <td>{renderMidiCell(e)}</td>
                 <td>
                   {e.arranged ? (
                     <audio
                       controls
                       preload="none"
                       className="dash-audio"
-                      onPlay={() => { stopMidi(); setPlayingKey(null); }}
+                      onPlay={onAudioPlay}
                       src={asset(e.arranged)}
                     />
                   ) : (

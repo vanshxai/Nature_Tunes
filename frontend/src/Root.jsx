@@ -9,10 +9,10 @@ function TopNav() {
       <div className="topnav-brand">🌿 NatureTunes</div>
       <div className="topnav-links">
         <NavLink to="/" end className={({ isActive }) => 'topnav-link' + (isActive ? ' active' : '')}>
-          Composer
-        </NavLink>
-        <NavLink to="/library" className={({ isActive }) => 'topnav-link' + (isActive ? ' active' : '')}>
           Library
+        </NavLink>
+        <NavLink to="/composer" className={({ isActive }) => 'topnav-link' + (isActive ? ' active' : '')}>
+          Composer
         </NavLink>
       </div>
     </nav>
@@ -24,8 +24,8 @@ export default function Root() {
     <>
       <TopNav />
       <Routes>
-        <Route path="/" element={<App />} />
-        <Route path="/library" element={<LibraryPage />} />
+        <Route path="/" element={<LibraryPage />} />
+        <Route path="/composer" element={<App />} />
       </Routes>
     </>
   );
