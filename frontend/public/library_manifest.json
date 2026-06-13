@@ -4,6 +4,7 @@
   "midi_count": 17,
   "mp3_count": 17,
   "arranged_count": 17,
+  "seed_count": 17,
   "species": [
     {
       "species": "Blue Gray Tanager",
@@ -15,7 +16,9 @@
       "mid_size": "689 B",
       "notes": 10,
       "arranged": "library/blue_gray_tanager/blue_gray_tanager_arranged.mp3",
-      "arranged_size": "1.1 MB"
+      "arranged_size": "1.1 MB",
+      "seed": "library/blue_gray_tanager/blue_gray_tanager_seed.mp3",
+      "seed_size": "142 KB"
     },
     {
       "species": "Brown Thrasher",
@@ -27,7 +30,9 @@
       "mid_size": "3 KB",
       "notes": 37,
       "arranged": "library/brown_thrasher/brown_thrasher_arranged.mp3",
-      "arranged_size": "3.9 MB"
+      "arranged_size": "3.9 MB",
+      "seed": "library/brown_thrasher/brown_thrasher_seed.mp3",
+      "seed_size": "142 KB"
     },
     {
       "species": "Canary",
@@ -39,7 +44,9 @@
       "mid_size": "1 KB",
       "notes": 27,
       "arranged": "library/canary/canary_arranged.mp3",
-      "arranged_size": "1.5 MB"
+      "arranged_size": "1.5 MB",
+      "seed": "library/canary/canary_seed.mp3",
+      "seed_size": "142 KB"
     },
     {
       "species": "Canyon Wren",
@@ -51,7 +58,9 @@
       "mid_size": "1 KB",
       "notes": 13,
       "arranged": "library/canyon_wren/canyon_wren_arranged.mp3",
-      "arranged_size": "948 KB"
+      "arranged_size": "948 KB",
+      "seed": "library/canyon_wren/canyon_wren_seed.mp3",
+      "seed_size": "142 KB"
     },
     {
       "species": "Common Nightingale",
@@ -63,7 +72,9 @@
       "mid_size": "4 KB",
       "notes": 74,
       "arranged": "library/common_nightingale/common_nightingale_arranged.mp3",
-      "arranged_size": "3.9 MB"
+      "arranged_size": "3.9 MB",
+      "seed": "library/common_nightingale/common_nightingale_seed.mp3",
+      "seed_size": "142 KB"
     },
     {
       "species": "Eurasian Blackbird",
@@ -75,7 +86,9 @@
       "mid_size": "1 KB",
       "notes": 19,
       "arranged": "library/eurasian_blackbird/eurasian_blackbird_arranged.mp3",
-      "arranged_size": "2.4 MB"
+      "arranged_size": "2.4 MB",
+      "seed": "library/eurasian_blackbird/eurasian_blackbird_seed.mp3",
+      "seed_size": "142 KB"
     },
     {
       "species": "European Robin",
@@ -87,7 +100,9 @@
       "mid_size": "2 KB",
       "notes": 18,
       "arranged": "library/european_robin/european_robin_arranged.mp3",
-      "arranged_size": "1.0 MB"
+      "arranged_size": "1.0 MB",
+      "seed": "library/european_robin/european_robin_seed.mp3",
+      "seed_size": "142 KB"
     },
     {
       "species": "Hermit Thrush",
@@ -99,7 +114,9 @@
       "mid_size": "2 KB",
       "notes": 33,
       "arranged": "library/hermit_thrush/hermit_thrush_arranged.mp3",
-      "arranged_size": "2.7 MB"
+      "arranged_size": "2.7 MB",
+      "seed": "library/hermit_thrush/hermit_thrush_seed.mp3",
+      "seed_size": "142 KB"
     },
     {
       "species": "Indian Cuckoo",
@@ -111,7 +128,9 @@
       "mid_size": "310 B",
       "notes": 4,
       "arranged": "library/indian_cuckoo/indian_cuckoo_arranged.mp3",
-      "arranged_size": "1.1 MB"
+      "arranged_size": "1.1 MB",
+      "seed": "library/indian_cuckoo/indian_cuckoo_seed.mp3",
+      "seed_size": "142 KB"
     },
     {
       "species": "Scarlet Tanager",
@@ -123,7 +142,9 @@
       "mid_size": "886 B",
       "notes": 17,
       "arranged": "library/scarlet_tanager/scarlet_tanager_arranged.mp3",
-      "arranged_size": "1.0 MB"
+      "arranged_size": "1.0 MB",
+      "seed": "library/scarlet_tanager/scarlet_tanager_seed.mp3",
+      "seed_size": "142 KB"
     },
     {
       "species": "Song Thrush",
@@ -135,7 +156,9 @@
       "mid_size": "947 B",
       "notes": 15,
       "arranged": "library/song_thrush/song_thrush_arranged.mp3",
-      "arranged_size": "2.2 MB"
+      "arranged_size": "2.2 MB",
+      "seed": "library/song_thrush/song_thrush_seed.mp3",
+      "seed_size": "142 KB"
     },
     {
       "species": "Summer Tanager",
@@ -147,7 +170,9 @@
       "mid_size": "41 B",
       "notes": 0,
       "arranged": "library/summer_tanager/summer_tanager_arranged.mp3",
-      "arranged_size": "48 KB"
+      "arranged_size": "48 KB",
+      "seed": "library/summer_tanager/summer_tanager_seed.mp3",
+      "seed_size": "142 KB"
     },
     {
       "species": "Superb Lyrebird",
@@ -159,7 +184,9 @@
       "mid_size": "495 B",
       "notes": 6,
       "arranged": "library/superb_lyrebird/superb_lyrebird_arranged.mp3",
-      "arranged_size": "2.1 MB"
+      "arranged_size": "2.1 MB",
+      "seed": "library/superb_lyrebird/superb_lyrebird_seed.mp3",
+      "seed_size": "142 KB"
     },
     {
       "species": "Veery",
@@ -171,7 +198,9 @@
       "mid_size": "3 KB",
       "notes": 47,
       "arranged": "library/veery/veery_arranged.mp3",
-      "arranged_size": "1.7 MB"
+      "arranged_size": "1.7 MB",
+      "seed": "library/veery/veery_seed.mp3",
+      "seed_size": "142 KB"
     },
     {
       "species": "Western Tanager",
@@ -183,7 +212,9 @@
       "mid_size": "256 B",
       "notes": 3,
       "arranged": "library/western_tanager/western_tanager_arranged.mp3",
-      "arranged_size": "295 KB"
+      "arranged_size": "295 KB",
+      "seed": "library/western_tanager/western_tanager_seed.mp3",
+      "seed_size": "142 KB"
     },
     {
       "species": "White Throated Sparrow",
@@ -195,7 +226,9 @@
       "mid_size": "3 KB",
       "notes": 36,
       "arranged": "library/white_throated_sparrow/white_throated_sparrow_arranged.mp3",
-      "arranged_size": "4.0 MB"
+      "arranged_size": "4.0 MB",
+      "seed": "library/white_throated_sparrow/white_throated_sparrow_seed.mp3",
+      "seed_size": "142 KB"
     },
     {
       "species": "Wood Thrush",
@@ -207,7 +240,9 @@
       "mid_size": "307 B",
       "notes": 4,
       "arranged": "library/wood_thrush/wood_thrush_arranged.mp3",
-      "arranged_size": "697 KB"
+      "arranged_size": "697 KB",
+      "seed": "library/wood_thrush/wood_thrush_seed.mp3",
+      "seed_size": "142 KB"
     }
   ]
 }

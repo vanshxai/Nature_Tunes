@@ -18,6 +18,7 @@ from pathlib import Path
 ROOT          = Path(__file__).parent.parent
 LIBRARY_SRC   = ROOT / "data" / "midi_library"
 ARRANGED_SRC  = ROOT / "output" / "arranged"
+SEEDS_SRC     = ROOT / "output" / "seeds"
 PUBLIC_DIR    = ROOT / "frontend" / "public" / "library"
 MANIFEST_PATH = ROOT / "frontend" / "public" / "library_manifest.json"
 
@@ -88,6 +89,7 @@ def main() -> None:
             "mp3": None, "mp3_size": None, "duration": None,
             "mid": None, "mid_size": None, "notes": 0,
             "arranged": None, "arranged_size": None,
+            "seed": None, "seed_size": None,
         }
 
         if mp3:
@@ -112,9 +114,17 @@ def main() -> None:
             entry["arranged"] = f"library/{slug}/{out.name}"
             entry["arranged_size"] = human_size(out.stat().st_size)
 
+        # Optional seed clip
+        seed = SEEDS_SRC / f"{slug}_seed.mp3"
+        if seed.exists():
+            out = dest / f"{slug}_seed.mp3"
+            shutil.copy2(seed, out)
+            entry["seed"] = f"library/{slug}/{out.name}"
+            entry["seed_size"] = human_size(out.stat().st_size)
+
         entries.append(entry)
         print(f"  ✓ {slug:<26} mp3={bool(mp3)} mid={bool(mid)} "
-              f"arranged={arranged.exists()} notes={entry['notes']}")
+              f"arranged={arranged.exists()} seed={seed.exists()} notes={entry['notes']}")
 
     manifest = {
         "generated": True,
@@ -122,6 +132,7 @@ def main() -> None:
         "midi_count": sum(1 for e in entries if e["mid"]),
         "mp3_count": sum(1 for e in entries if e["mp3"]),
         "arranged_count": sum(1 for e in entries if e["arranged"]),
+        "seed_count": sum(1 for e in entries if e["seed"]),
         "species": entries,
     }
     MANIFEST_PATH.write_text(json.dumps(manifest, indent=2))

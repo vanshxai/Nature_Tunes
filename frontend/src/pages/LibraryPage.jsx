@@ -213,6 +213,7 @@ export default function LibraryPage() {
               <th>Duration</th>
               <th>MIDI (piano)</th>
               <th>Arranged mix</th>
+              <th>Suno Seed</th>
               <th>Download</th>
             </tr>
           </thead>
@@ -248,6 +249,15 @@ export default function LibraryPage() {
                       onPlay={onAudioPlay}
                       src={asset(e.arranged)}
                     />
+                  ) : (
+                    <span className="dash-dim">—</span>
+                  )}
+                </td>
+                <td>
+                  {e.seed ? (
+                    <a className="btn-dl btn-seed" href={asset(e.seed)} download>
+                      ⬇ Download Seed
+                    </a>
                   ) : (
                     <span className="dash-dim">—</span>
                   )}
