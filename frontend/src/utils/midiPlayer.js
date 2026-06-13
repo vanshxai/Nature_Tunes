@@ -77,6 +77,7 @@ export async function play(key, url, cbs = {}) {
 
   callbacks = cbs;
   totalTicks = 0;
+  let totalSec = 0;
 
   player = new window.MidiPlayer.Player((event) => {
     if (event.name === 'Note on' && event.velocity > 0) {
@@ -88,12 +89,15 @@ export async function play(key, url, cbs = {}) {
     }
   });
 
-  player.on('fileLoaded', () => { totalTicks = player.getTotalTicks(); });
+  player.on('fileLoaded', () => {
+    totalTicks = player.getTotalTicks();
+    totalSec   = player.getSongTime(); // total duration in seconds
+  });
 
   player.on('playing', (obj) => {
     if (callbacks.onProgress && totalTicks) {
-      const pct = Math.min(100, (obj.tick / totalTicks) * 100);
-      const elapsed = player.getSongTime() - player.getSongTimeRemaining();
+      const pct     = Math.min(100, (obj.tick / totalTicks) * 100);
+      const elapsed = (pct / 100) * totalSec;
       callbacks.onProgress(pct, Math.max(0, elapsed));
     }
   });
