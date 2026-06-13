@@ -142,20 +142,30 @@ export default function LibraryPage() {
           <div className="dash-progress">
             <div
               className="dash-bar-wrap dash-bar-seek"
-              title="Click to seek"
+              title="Click or drag to seek"
               onClick={(ev) => {
                 const rect = ev.currentTarget.getBoundingClientRect();
-                const pct = ((ev.clientX - rect.left) / rect.width) * 100;
+                const pct = Math.max(0, Math.min(100, ((ev.clientX - rect.left) / rect.width) * 100));
                 unlockAudio();
                 seekTo(pct);
+                setProgress(p => ({ ...p, pct }));
+                if (playState !== 'playing') setPlayState('playing');
+              }}
+              onMouseDown={(ev) => {
+                const rect = ev.currentTarget.getBoundingClientRect();
+                const pct = Math.max(0, Math.min(100, ((ev.clientX - rect.left) / rect.width) * 100));
+                unlockAudio();
+                seekTo(pct);
+                setProgress(p => ({ ...p, pct }));
                 if (playState !== 'playing') setPlayState('playing');
               }}
               onMouseMove={(ev) => {
                 if (ev.buttons !== 1) return;
                 const rect = ev.currentTarget.getBoundingClientRect();
-                const pct = ((ev.clientX - rect.left) / rect.width) * 100;
+                const pct = Math.max(0, Math.min(100, ((ev.clientX - rect.left) / rect.width) * 100));
                 unlockAudio();
                 seekTo(pct);
+                setProgress(p => ({ ...p, pct }));
                 if (playState !== 'playing') setPlayState('playing');
               }}
             >
