@@ -45,14 +45,8 @@ MP3_SUFFIXES = ["_source.mp3", "_best.mp3", ".mp3"]
 
 # ── MIDI constants ─────────────────────────────────────────────────────────────
 
-GM_FLUTE      = 73   # GM program number (0-indexed)
+GM_FLUTE      = 73   # GM program number (1-indexed)
 GM_STRING_PAD = 48
-PERC_CHANNEL  = 9    # MIDI channel 10 = index 9
-KICK  = 36
-HIHAT = 42
-
-BPM   = 90.0
-BEAT  = 60.0 / BPM   # seconds per beat
 
 
 # ── helpers ───────────────────────────────────────────────────────────────────
