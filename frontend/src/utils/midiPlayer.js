@@ -32,6 +32,24 @@ async function loadInstrument() {
   return instrument;
 }
 
+/**
+ * Resume/start the AudioContext. MUST be called synchronously inside a user
+ * gesture (e.g. the Play click) — browsers only honour resume() while the
+ * gesture's activation is still valid, which expires after async awaits.
+ */
+export function unlockAudio() {
+  ensureCtx();
+  if (audioCtx.state === 'suspended') {
+    audioCtx.resume().catch(() => { /* noop */ });
+  }
+}
+
+/** Warm the soundfont cache so the first Play has no download delay. */
+export function preloadInstrument() {
+  if (!window.Soundfont) return Promise.resolve(null);
+  return loadInstrument().catch(() => null);
+}
+
 function silenceNotes() {
   activeNotes.forEach((n) => { try { n.stop(); } catch (e) { /* noop */ } });
   activeNotes = [];

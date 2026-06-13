@@ -67,6 +67,7 @@
 }
 .btn-midi:hover { background: #213548; border-color: #5a9acc; }
 .btn-midi.playing { background: #2a1a3a; border-color: #8a5acc; color: #c8a0f0; }
+.btn-midi.loading { opacity: .7; cursor: default; }
 
 /* transport (pause / resume / replay / stop) */
 .midi-transport { display: inline-flex; gap: 4px; }

@@ -1,5 +1,5 @@
 import { useEffect, useState } from 'react';
-import { play, pause, resume, replay, stop } from '../utils/midiPlayer';
+import { play, pause, resume, replay, stop, unlockAudio, preloadInstrument } from '../utils/midiPlayer';
 
 // Resolve a manifest-relative path against Vite's base URL.
 function asset(path) {
@@ -23,6 +23,9 @@ export default function LibraryPage() {
       .then(setManifest)
       .catch((e) => setError(e.message));
 
+    // Warm the piano samples so the first Play is instant.
+    preloadInstrument();
+
     // Stop any MIDI when leaving the page
     return () => stop();
   }, []);
@@ -39,14 +42,18 @@ export default function LibraryPage() {
   }
 
   async function handlePlay(slug, midUrl) {
+    // Unlock audio synchronously within the click gesture, before any await,
+    // or the browser keeps the AudioContext muted.
+    unlockAudio();
+    setActiveKey(slug);
+    setPlayState('loading');
+    setProgress({ pct: 0, time: '0:00' });
     try {
       await play(slug, midUrl, {
         onProgress: (pct, elapsed) => setProgress({ pct, time: fmt(elapsed) }),
         onEnd: () => resetUi(),
       });
-      setActiveKey(slug);
       setPlayState('playing');
-      setProgress({ pct: 0, time: '0:00' });
     } catch (e) {
       alert('Could not play MIDI: ' + e.message);
       resetUi();
@@ -115,6 +122,8 @@ export default function LibraryPage() {
           <button className="btn-midi" onClick={() => handlePlay(e.slug, midUrl)}>
             🎹 Play
           </button>
+        ) : playState === 'loading' ? (
+          <button className="btn-midi loading" disabled>⏳ Loading…</button>
         ) : (
           <div className="midi-transport">
             {playState === 'playing' ? (
