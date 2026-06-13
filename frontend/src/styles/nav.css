@@ -1,0 +1,44 @@
+/* Global top navigation shared by Composer + Library pages */
+.topnav {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 10px 28px;
+  background: var(--surface, #111811);
+  border-bottom: 1px solid var(--border, #2a3f2a);
+  position: sticky;
+  top: 0;
+  z-index: 100;
+}
+
+.topnav-brand {
+  font-size: 16px;
+  font-weight: 700;
+  color: var(--accent, #7cb87c);
+  letter-spacing: .5px;
+}
+
+.topnav-links {
+  display: flex;
+  gap: 6px;
+}
+
+.topnav-link {
+  padding: 6px 16px;
+  border-radius: 6px;
+  font-size: 13px;
+  font-weight: 600;
+  text-decoration: none;
+  color: var(--text-secondary, #6b8f6b);
+  transition: background .15s, color .15s;
+}
+
+.topnav-link:hover {
+  background: var(--card, #1a251a);
+  color: var(--text-primary, #e8f0e8);
+}
+
+.topnav-link.active {
+  background: var(--accent2, #4a8f4a);
+  color: #fff;
+}

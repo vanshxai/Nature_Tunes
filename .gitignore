@@ -1,0 +1,33 @@
+# ── Node / Vite ──────────────────────────────────────────────
+node_modules/
+frontend/node_modules/
+frontend/dist/
+dist/
+*.local
+.env
+
+# ── Python ───────────────────────────────────────────────────
+__pycache__/
+*.pyc
+*.pyo
+.ipynb_checkpoints/
+.conda/
+
+# ── Large data NOT needed for deployment ─────────────────────
+# Raw downloaded recordings (1.8 GB) — regenerable via download_dataset.py
+data/prototype/raw/
+# Mood-composition WAV/MP3 renders
+data/output/
+# Standalone arranged renders — the deployed copies live in frontend/public/library/
+output/
+# Soundfonts (large, downloadable) — see README for the download step
+assets/soundfonts/*.sf2
+
+# ── Logs / scratch ───────────────────────────────────────────
+*.log
+.DS_Store
+
+# ── IMPORTANT: do NOT ignore the deployed library assets ─────
+# frontend/public/library/  and  frontend/public/library_manifest.json
+# are intentionally committed — they are what the Library page serves.
+!frontend/public/library/

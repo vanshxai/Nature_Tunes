@@ -1,0 +1,26 @@
+{
+  "version": "0.0.1",
+  "configurations": [
+    {
+      "name": "yogam",
+      "runtimeExecutable": "python3",
+      "runtimeArgs": ["-m", "http.server", "4321", "--directory", "/Users/mac/Desktop/YogamAyurveda"],
+      "port": 4321
+    },
+    {
+      "name": "birdmind-dashboard",
+      "runtimeExecutable": "/opt/miniconda3/envs/birdmind/bin/python",
+      "runtimeArgs": ["dashboard/app.py"],
+      "port": 5050,
+      "autoPort": true
+    },
+    {
+      "name": "naturetunes-web",
+      "runtimeExecutable": "npm",
+      "runtimeArgs": ["run", "dev"],
+      "cwd": "frontend",
+      "port": 5173,
+      "autoPort": true
+    }
+  ]
+}

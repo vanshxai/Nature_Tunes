@@ -1,0 +1,18 @@
+species,common_name,source_xc_id,source_file,midi_file,duration_seconds,silence_ratio,onset_density,dominant_freq_hz,notes_in_midi
+blue_gray_tanager,Blue-gray Tanager,371158,data/prototype/raw/Blue-gray Tanager/XC371158.mp3,data/midi_library/blue_gray_tanager/blue_gray_tanager_sample.mid,46,0.0,5.9265,5648.86,10
+brown_thrasher,Brown Thrasher,893646,data/prototype/raw/Brown Thrasher/XC893646.mp3,data/midi_library/brown_thrasher/brown_thrasher_sample.mid,168,0.0,2.8377,1939.81,37
+canary,Canary,794205,data/prototype/raw/Canary/XC794205.mp3,data/midi_library/canary/canary_sample.mid,67,0.0,2.3453,3471.27,27
+canyon_wren,Canyon Wren,168592,data/prototype/raw/Canyon Wren/XC168592.mp3,data/midi_library/canyon_wren/canyon_wren_sample.mid,36,0.0,2.8904,2561.39,13
+common_nightingale,Common Nightingale,76234,data/prototype/raw/Common Nightingale/XC76234.mp3,data/midi_library/common_nightingale/common_nightingale_sample.mid,167,0.000415,3.144,2706.68,74
+eurasian_blackbird,Eurasian Blackbird,121327,data/prototype/raw/Eurasian Blackbird/XC121327.mp3,data/midi_library/eurasian_blackbird/eurasian_blackbird_sample.mid,109,0.000106,0.6952,6622.2,19
+european_robin,European Robin,97411,data/prototype/raw/European Robin/XC97411.mp3,data/midi_library/european_robin/european_robin_sample.mid,39,0.0,3.5977,1727.73,18
+hermit_thrush,Hermit Thrush,103067,data/prototype/raw/Hermit Thrush/XC103067.mp3,data/midi_library/hermit_thrush/hermit_thrush_sample.mid,114,0.0,2.5091,2617.33,33
+indian_cuckoo,Indian Cuckoo,998539,data/prototype/raw/Indian Cuckoo/XC998539.mp3,data/midi_library/indian_cuckoo/indian_cuckoo_sample.mid,49,0.0,4.6049,4726.49,4
+scarlet_tanager,Scarlet Tanager,572720,data/prototype/raw/Scarlet Tanager/XC572720.mp3,data/midi_library/scarlet_tanager/scarlet_tanager_sample.mid,45,0.0,2.5966,1773.8,17
+song_thrush,Song Thrush,97805,data/prototype/raw/Song Thrush/XC97805.mp3,data/midi_library/song_thrush/song_thrush_sample.mid,105,0.0,2.7351,1143.94,15
+summer_tanager,Summer Tanager,471145,data/prototype/raw/Summer Tanager/XC471145.mp3,data/midi_library/summer_tanager/summer_tanager_sample.mid,20,0.0,4.8406,5357.13,0
+superb_lyrebird,Superb Lyrebird,342585,data/prototype/raw/Superb Lyrebird/XC342585.mp3,data/midi_library/superb_lyrebird/superb_lyrebird_sample.mid,95,0.033188,2.284,2361.21,6
+veery,Veery,661384,data/prototype/raw/Veery/XC661384.mp3,data/midi_library/veery/veery_sample.mid,73,0.0,4.8192,2363.84,47
+western_tanager,Western Tanager,320546,data/prototype/raw/Western Tanager/XC320546.mp3,data/midi_library/western_tanager/western_tanager_sample.mid,26,0.0,3.352,3718.15,3
+white_throated_sparrow,White-throated Sparrow,329881,data/prototype/raw/White-throated Sparrow/XC329881.mp3,data/midi_library/white_throated_sparrow/white_throated_sparrow_sample.mid,172,0.0,4.1397,1770.37,36
+wood_thrush,Wood Thrush,331041,data/prototype/raw/Wood Thrush/XC331041.mp3,data/midi_library/wood_thrush/wood_thrush_sample.mid,32,0.0,3.1767,3650.48,4

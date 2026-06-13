@@ -1,0 +1,319 @@
+
+==============================================================================
+BirdMind Prototype Dataset — Exploration Report
+==============================================================================
+Source : /Users/mac/Desktop/BirdMind/data/prototype/prototype_metadata.csv
+Records: 814
+Species: 17
+Total duration: 15.6 hours (56229 seconds)
+
+------------------------------------------------------------------------------
+1. PER-SPECIES BREAKDOWN
+------------------------------------------------------------------------------
+                        files avg_dur_s min_dur max_dur avg_freq_Hz avg_tempo_BPM avg_silence
+common_name                                                                                  
+Blue-gray Tanager          50        38      11     155        5116           124        0.10
+Brown Thrasher             50        77      14     177        4961           142        0.40
+Canary                     50        35      10     110        4328           128        0.10
+Canyon Wren                50        53      10     157        4700           123        0.30
+Common Nightingale         50        97      20     180        3786           149        0.50
+Eurasian Blackbird         50        95      34     178        3866           139        0.50
+European Robin             50        77      18     177        4173           132        0.60
+Hermit Thrush              50        79      10     179        4847           134        0.40
+Scarlet Tanager            50        62      13     160        5168           121        0.50
+Wood Thrush                50        57      12     164        4202           133        0.40
+Song Thrush                50        94      19     178        4517           136        0.50
+White-throated Sparrow     50        73      11     176        4948           112        0.40
+Western Tanager            50        78      13     165        5449           116        0.50
+Veery                      48        62      10     160        4880           135        0.40
+Summer Tanager             45        65      18     177        4887           111        0.50
+Superb Lyrebird            36        88      22     172        3345           124        0.40
+Indian Cuckoo              35        38      10     135        3708           117        0.40
+
+------------------------------------------------------------------------------
+2. FREQUENCY TIER DISTRIBUTION
+------------------------------------------------------------------------------
+Overall:
+  LOW (<2000Hz)          22  (  2.7%)
+  MID (2000-5000Hz)     523  ( 64.3%)
+  HIGH (>5000Hz)        269  ( 33.0%)
+
+Per species (file counts):
+freq_tier               LOW (<2000Hz)  MID (2000-5000Hz)  HIGH (>5000Hz)
+common_name                                                             
+Blue-gray Tanager                   0                 21              29
+Brown Thrasher                      2                 31              17
+Canary                              2                 30              18
+Canyon Wren                         3                 28              19
+Common Nightingale                  0                 47               3
+Eurasian Blackbird                  2                 40               8
+European Robin                      1                 32              17
+Hermit Thrush                       0                 33              17
+Indian Cuckoo                       2                 27               6
+Scarlet Tanager                     1                 25              24
+Song Thrush                         1                 36              13
+Summer Tanager                      2                 22              21
+Superb Lyrebird                     0                 35               1
+Veery                               0                 31              17
+Western Tanager                     1                 23              26
+White-throated Sparrow              3                 25              22
+Wood Thrush                         2                 37              11
+
+------------------------------------------------------------------------------
+3. TEMPO DISTRIBUTION
+------------------------------------------------------------------------------
+Overall:
+  Very Slow (<60)        17  (  2.1%)
+  Slow (60-80)           19  (  2.3%)
+  Medium (80-100)        71  (  8.7%)
+  Fast (100-120)        216  ( 26.5%)
+  Very Fast (>120)      491  ( 60.3%)
+
+Per species (file counts):
+tempo_band              Very Slow (<60)  Slow (60-80)  Medium (80-100)  Fast (100-120)  Very Fast (>120)
+common_name                                                                                             
+Blue-gray Tanager                     0             1                7              16                26
+Brown Thrasher                        1             0                1               8                40
+Canary                                0             2                2              14                32
+Canyon Wren                           0             0                9              14                27
+Common Nightingale                    1             0                0               9                40
+Eurasian Blackbird                    0             0                3              12                35
+European Robin                        2             0                3              10                35
+Hermit Thrush                         0             0                1              13                36
+Indian Cuckoo                         4             0                2              10                19
+Scarlet Tanager                       1             2                2              17                28
+Song Thrush                           0             3                5              10                32
+Summer Tanager                        1             2               10              18                14
+Superb Lyrebird                       0             1                3              12                20
+Veery                                 0             0                4               7                37
+Western Tanager                       2             3                6              18                21
+White-throated Sparrow                4             5                8              13                20
+Wood Thrush                           1             0                5              15                29
+
+------------------------------------------------------------------------------
+4. SILENCE RATIO DISTRIBUTION
+------------------------------------------------------------------------------
+Overall:
+  Dense (<0.2)          272  ( 33.4%)
+  Moderate (0.2-0.5)    162  ( 19.9%)
+  Sparse (>0.5)         380  ( 46.7%)
+
+Per species (file counts):
+sil_band                Dense (<0.2)  Moderate (0.2-0.5)  Sparse (>0.5)
+common_name                                                            
+Blue-gray Tanager                 39                   8              3
+Brown Thrasher                    15                  15             20
+Canary                            44                   4              2
+Canyon Wren                       26                   6             18
+Common Nightingale                 8                  10             32
+Eurasian Blackbird                 9                  13             28
+European Robin                     5                   9             36
+Hermit Thrush                     14                   8             28
+Indian Cuckoo                     15                   4             16
+Scarlet Tanager                   13                   6             31
+Song Thrush                        4                  23             23
+Summer Tanager                    13                   5             27
+Superb Lyrebird                    6                  17             13
+Veery                             15                   9             24
+Western Tanager                   12                   7             31
+White-throated Sparrow            18                   9             23
+Wood Thrush                       16                   9             25
+
+------------------------------------------------------------------------------
+5. GEOGRAPHIC COVERAGE
+------------------------------------------------------------------------------
+Unique countries: 39
+
+Top 10 countries by file count:
+  United States                 334  ( 41.0%)
+  Canada                         81  ( 10.0%)
+  Portugal                       44  (  5.4%)
+  Australia                      38  (  4.7%)
+  Ecuador                        29  (  3.6%)
+  Netherlands                    28  (  3.4%)
+  Germany                        26  (  3.2%)
+  Poland                         25  (  3.1%)
+  Sweden                         24  (  2.9%)
+  France                         23  (  2.8%)
+
+------------------------------------------------------------------------------
+6. ANOMALY FLAGS
+------------------------------------------------------------------------------
+
+  Duration < 10s: 0 file(s)
+
+  Duration > 180s: 0 file(s)
+
+  Dominant freq > 10000 Hz: 7 file(s)
+ xc_id     common_name  duration  dominant_freq_hz  tempo_bpm  silence_ratio
+802377  Brown Thrasher        39           12619.0      118.4           0.57
+802378  Brown Thrasher        65           12517.0      144.2           0.54
+802379  Brown Thrasher        52           13037.0      118.4           0.55
+856992 Scarlet Tanager        27           11981.0      132.4           0.38
+856993 Scarlet Tanager        70           15102.0      118.4           0.55
+737536 Western Tanager        86           12660.0      110.3           0.86
+744258 Western Tanager        75           11711.0      125.0           0.89
+
+  Dominant freq < 200 Hz: 0 file(s)
+
+  Silence ratio > 0.9: 7 file(s)
+ xc_id            common_name  duration  dominant_freq_hz  tempo_bpm  silence_ratio
+139635          Hermit Thrush        10            4856.0      105.5           0.90
+112781         European Robin        64            7149.0      114.8           0.95
+330125            Canyon Wren        77            4363.0      105.5           0.98
+188416 White-throated Sparrow       176            5332.0      143.6           0.94
+323201        Western Tanager       120            3998.0       60.1           0.92
+381710        Western Tanager        34            4674.0      126.0           0.90
+943701         Summer Tanager       108            6439.0      123.0           0.94
+
+  Tempo = 0 (beat-track failed): 5 file(s)
+ xc_id            common_name  duration  dominant_freq_hz  tempo_bpm  silence_ratio
+190049 White-throated Sparrow       173            4405.0        0.0           0.49
+340798 White-throated Sparrow        27            6983.0        0.0           0.68
+822363          Indian Cuckoo        23            2062.0        0.0           0.63
+893275          Indian Cuckoo        71            1919.0        0.0           0.72
+917406         Summer Tanager        39            1807.0        0.0           0.14
+
+------------------------------------------------------------------------------
+7. TOP 5 CLEANEST RECORDINGS PER SPECIES (lowest silence ratio)
+------------------------------------------------------------------------------
+
+  Blue-gray Tanager:
+ xc_id  duration  dominant_freq_hz  tempo_bpm  silence_ratio
+120827        18            5157.0      139.7            0.0
+129721        42            3937.0      112.3            0.0
+197566        20            4444.0       71.8            0.0
+371158        46            5649.0      136.0            0.0
+378046        23            3964.0      147.7            0.0
+
+  Brown Thrasher:
+ xc_id  duration  dominant_freq_hz  tempo_bpm  silence_ratio
+538953        30            4754.0      165.4            0.0
+546731        64            6228.0      133.9            0.0
+570947        82            2818.0      132.5            0.0
+798307        43            3646.0      125.0            0.0
+803578        45            2343.0      132.5            0.0
+
+  Canary:
+ xc_id  duration  dominant_freq_hz  tempo_bpm  silence_ratio
+601672        19            2666.0      107.7            0.0
+736700        57            3742.0      120.2            0.0
+782280        20             985.0      161.5            0.0
+784110        16            4744.0      147.7            0.0
+784111        12            3595.0      156.6            0.0
+
+  Canyon Wren:
+ xc_id  duration  dominant_freq_hz  tempo_bpm  silence_ratio
+168592        36            2561.0      139.7            0.0
+212098        27            2569.0      122.3            0.0
+237154        13            4766.0       98.7            0.0
+318753        35            1330.0      112.3            0.0
+170089        40            4300.0      126.0            0.0
+
+  Common Nightingale:
+ xc_id  duration  dominant_freq_hz  tempo_bpm  silence_ratio
+ 76234       167            2707.0      132.5          0.000
+ 76232       167            2667.0      123.0          0.001
+ 76226       153            3170.0      143.6          0.001
+ 76231       158            2899.0      120.2          0.006
+ 76235       169            3045.0      139.7          0.018
+
+  Eurasian Blackbird:
+ xc_id  duration  dominant_freq_hz  tempo_bpm  silence_ratio
+121327       109            6622.0      132.5          0.000
+132592        86            6860.0      117.5          0.001
+127998        51            5728.0      126.0          0.001
+ 46194        72            4042.0      143.6          0.002
+ 33168        48            2186.0      103.4          0.003
+
+  European Robin:
+ xc_id  duration  dominant_freq_hz  tempo_bpm  silence_ratio
+ 97411        39            1728.0      132.5          0.000
+ 93003        69            2309.0      130.8          0.000
+103405        48            2033.0      175.8          0.012
+ 90788       160            2867.0      120.2          0.013
+138369        41            3395.0      184.6          0.139
+
+  Hermit Thrush:
+ xc_id  duration  dominant_freq_hz  tempo_bpm  silence_ratio
+103067       114            2617.0      112.5            0.0
+103068        79            3273.0      117.2            0.0
+143636        32            8694.0      123.0            0.0
+328623        62            4202.0      148.0            0.0
+328624        76            4140.0      120.2            0.0
+
+  Indian Cuckoo:
+  xc_id  duration  dominant_freq_hz  tempo_bpm  silence_ratio
+ 895301        22            3828.0      139.7          0.000
+ 982884        24            6491.0      139.7          0.000
+ 998539        49            4726.0      130.8          0.000
+1135258        14            2952.0      156.6          0.000
+ 266181        64            5135.0      112.3          0.001
+
+  Scarlet Tanager:
+ xc_id  duration  dominant_freq_hz  tempo_bpm  silence_ratio
+572720        45            1774.0      132.5          0.000
+654865        53            2371.0      119.7          0.000
+ 82119        84            2647.0      117.5          0.001
+561389        44            4379.0      103.4          0.001
+554900        13            4226.0      120.2          0.004
+
+  Song Thrush:
+ xc_id  duration  dominant_freq_hz  tempo_bpm  silence_ratio
+ 97805       105            1144.0      172.3          0.000
+ 36200        61            3679.0       97.0          0.011
+132004        78            2650.0      130.8          0.037
+ 36199        50            3672.0      114.8          0.037
+ 67384        30            3188.0      130.8          0.233
+
+  Summer Tanager:
+ xc_id  duration  dominant_freq_hz  tempo_bpm  silence_ratio
+471145        20            5357.0      172.3          0.000
+371069        93            1493.0      152.0          0.000
+368753       112            3254.0      112.5          0.000
+380721        23            5728.0      110.0          0.002
+334613       133            3578.0      101.3          0.003
+
+  Superb Lyrebird:
+  xc_id  duration  dominant_freq_hz  tempo_bpm  silence_ratio
+ 342585        95            2361.0      125.0          0.033
+1041387        65            2099.0      144.2          0.035
+ 492308       130            2580.0      125.0          0.036
+1031961        44            3114.0       92.3          0.047
+1045881        56            3326.0       77.1          0.131
+
+  Veery:
+ xc_id  duration  dominant_freq_hz  tempo_bpm  silence_ratio
+661384        73            2364.0      148.0            0.0
+841086        28            9507.0      105.5            0.0
+916972        18            5878.0      120.2            0.0
+924425        15            3619.0      136.0            0.0
+178550        45            2802.0      107.7            0.0
+
+  Western Tanager:
+ xc_id  duration  dominant_freq_hz  tempo_bpm  silence_ratio
+320546        26            3718.0      136.0          0.000
+369965       158            1624.0       98.7          0.000
+325474        37            4109.0      119.7          0.005
+113834        98            2182.0      125.0          0.006
+489340        31            3870.0      119.7          0.009
+
+  White-throated Sparrow:
+ xc_id  duration  dominant_freq_hz  tempo_bpm  silence_ratio
+217369        45            4585.0      117.5            0.0
+217392        35            4543.0       90.7            0.0
+329835        92            1650.0      125.0            0.0
+329881       172            1770.0      117.2            0.0
+502022        24            3020.0       78.1            0.0
+
+  Wood Thrush:
+ xc_id  duration  dominant_freq_hz  tempo_bpm  silence_ratio
+202220        31            7154.0       41.7            0.0
+331041        32            3650.0      129.2            0.0
+370945        78            1698.0      140.6            0.0
+369874        63            2255.0      125.0            0.0
+178133       106            4075.0      148.0            0.0
+
+==============================================================================
+END OF REPORT
+==============================================================================

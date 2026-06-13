@@ -1,0 +1,151 @@
+.library {
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: 12px;
+  padding: 18px;
+}
+
+.library-title {
+  font-size: 16px;
+  font-weight: 600;
+}
+
+.library-subtitle {
+  font-size: 13px;
+  color: var(--text-secondary);
+  margin-bottom: 14px;
+}
+
+.bird-grid {
+  display: grid;
+  grid-template-columns: repeat(5, 1fr);
+  gap: 12px;
+}
+
+@media (max-width: 1100px) {
+  .bird-grid { grid-template-columns: repeat(3, 1fr); }
+}
+
+@media (max-width: 680px) {
+  .bird-grid { grid-template-columns: repeat(2, 1fr); }
+}
+
+.bird-card {
+  background: var(--card);
+  border: 1px solid var(--border);
+  border-radius: 10px;
+  padding: 12px;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  cursor: grab;
+  position: relative;
+  transition: transform 0.12s, box-shadow 0.15s, border-color 0.15s;
+}
+
+.bird-card:hover {
+  transform: translateY(-3px);
+  box-shadow: 0 6px 18px rgba(0, 0, 0, 0.4);
+  border-color: var(--accent);
+}
+
+.bird-card:active {
+  cursor: grabbing;
+}
+
+.bird-card.dragging {
+  opacity: 0.4;
+}
+
+.bird-card-name {
+  font-size: 14px;
+  font-weight: 600;
+  line-height: 1.2;
+}
+
+.bird-card-meta {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 6px;
+}
+
+.role-badge {
+  font-size: 10px;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+  padding: 2px 8px;
+  border-radius: 10px;
+  color: var(--text-primary);
+}
+
+.role-badge.melody { background: var(--role-melody); }
+.role-badge.texture { background: var(--role-texture); }
+.role-badge.anchor { background: var(--role-anchor); }
+
+.bird-card-freq {
+  font-size: 11px;
+  color: var(--text-secondary);
+  font-variant-numeric: tabular-nums;
+}
+
+.preview-btn {
+  position: absolute;
+  top: 8px;
+  right: 8px;
+  width: 26px;
+  height: 26px;
+  border-radius: 50%;
+  background: var(--accent);
+  color: var(--bg);
+  font-size: 11px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  opacity: 0;
+  transition: opacity 0.15s;
+}
+
+.bird-card:hover .preview-btn {
+  opacity: 1;
+}
+
+/* Beat section in library */
+.beat-library {
+  margin-top: 22px;
+}
+
+.beat-library-title {
+  font-size: 14px;
+  font-weight: 600;
+  color: var(--text-secondary);
+  margin-bottom: 10px;
+}
+
+.beat-card-grid {
+  display: flex;
+  gap: 12px;
+  flex-wrap: wrap;
+}
+
+.beat-card {
+  background: var(--card);
+  border: 1px solid var(--border);
+  border-radius: 10px;
+  padding: 12px 16px;
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  min-width: 150px;
+}
+
+.beat-card-name {
+  font-size: 14px;
+  font-weight: 600;
+}
+
+.beat-card .preview-btn {
+  position: static;
+  opacity: 1;
+}

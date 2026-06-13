@@ -1,0 +1,174 @@
+{
+  "birds": [
+    {
+      "id": "blue_gray_tanager",
+      "common_name": "Blue-gray Tanager",
+      "file": "/audio/birds/blue_gray_tanager.mp3",
+      "dominant_freq_hz": 3937.0,
+      "onset_density": 4.7,
+      "onset_interval_ms": 185.8,
+      "suggested_role": "texture"
+    },
+    {
+      "id": "brown_thrasher",
+      "common_name": "Brown Thrasher",
+      "file": "/audio/birds/brown_thrasher.mp3",
+      "dominant_freq_hz": 6228.0,
+      "onset_density": 1.93,
+      "onset_interval_ms": 255.4,
+      "suggested_role": "melody"
+    },
+    {
+      "id": "canary",
+      "common_name": "Canary",
+      "file": "/audio/birds/canary.mp3",
+      "dominant_freq_hz": 3742.0,
+      "onset_density": 6.09,
+      "onset_interval_ms": 139.3,
+      "suggested_role": "texture"
+    },
+    {
+      "id": "canyon_wren",
+      "common_name": "Canyon Wren",
+      "file": "/audio/birds/canyon_wren.mp3",
+      "dominant_freq_hz": 2569.0,
+      "onset_density": 5.29,
+      "onset_interval_ms": 185.8,
+      "suggested_role": "texture"
+    },
+    {
+      "id": "common_nightingale",
+      "common_name": "Common Nightingale",
+      "file": "/audio/birds/common_nightingale.mp3",
+      "dominant_freq_hz": 2707.0,
+      "onset_density": 3.14,
+      "onset_interval_ms": 162.5,
+      "suggested_role": "texture"
+    },
+    {
+      "id": "eurasian_blackbird",
+      "common_name": "Eurasian Blackbird",
+      "file": "/audio/birds/eurasian_blackbird.mp3",
+      "dominant_freq_hz": 6622.0,
+      "onset_density": 0.7,
+      "onset_interval_ms": 928.8,
+      "suggested_role": "anchor"
+    },
+    {
+      "id": "european_robin",
+      "common_name": "European Robin",
+      "file": "/audio/birds/european_robin.mp3",
+      "dominant_freq_hz": 1728.0,
+      "onset_density": 3.6,
+      "onset_interval_ms": 185.8,
+      "suggested_role": "texture"
+    },
+    {
+      "id": "hermit_thrush",
+      "common_name": "Hermit Thrush",
+      "file": "/audio/birds/hermit_thrush.mp3",
+      "dominant_freq_hz": 3273.0,
+      "onset_density": 2.84,
+      "onset_interval_ms": 185.8,
+      "suggested_role": "melody"
+    },
+    {
+      "id": "indian_cuckoo",
+      "common_name": "Indian Cuckoo",
+      "file": "/audio/birds/indian_cuckoo.mp3",
+      "dominant_freq_hz": 6491.0,
+      "onset_density": 4.25,
+      "onset_interval_ms": 209.0,
+      "suggested_role": "texture"
+    },
+    {
+      "id": "scarlet_tanager",
+      "common_name": "Scarlet Tanager",
+      "file": "/audio/birds/scarlet_tanager.mp3",
+      "dominant_freq_hz": 1774.0,
+      "onset_density": 2.6,
+      "onset_interval_ms": 325.1,
+      "suggested_role": "melody"
+    },
+    {
+      "id": "song_thrush",
+      "common_name": "Song Thrush",
+      "file": "/audio/birds/song_thrush.mp3",
+      "dominant_freq_hz": 1144.0,
+      "onset_density": 2.74,
+      "onset_interval_ms": 209.0,
+      "suggested_role": "melody"
+    },
+    {
+      "id": "summer_tanager",
+      "common_name": "Summer Tanager",
+      "file": "/audio/birds/summer_tanager.mp3",
+      "dominant_freq_hz": 5357.0,
+      "onset_density": 4.84,
+      "onset_interval_ms": 139.3,
+      "suggested_role": "texture"
+    },
+    {
+      "id": "superb_lyrebird",
+      "common_name": "Superb Lyrebird",
+      "file": "/audio/birds/superb_lyrebird.mp3",
+      "dominant_freq_hz": 2361.0,
+      "onset_density": 2.28,
+      "onset_interval_ms": 232.2,
+      "suggested_role": "melody"
+    },
+    {
+      "id": "veery",
+      "common_name": "Veery",
+      "file": "/audio/birds/veery.mp3",
+      "dominant_freq_hz": 9507.0,
+      "onset_density": 4.06,
+      "onset_interval_ms": 185.8,
+      "suggested_role": "texture"
+    },
+    {
+      "id": "western_tanager",
+      "common_name": "Western Tanager",
+      "file": "/audio/birds/western_tanager.mp3",
+      "dominant_freq_hz": 3718.0,
+      "onset_density": 3.35,
+      "onset_interval_ms": 185.8,
+      "suggested_role": "texture"
+    },
+    {
+      "id": "white_throated_sparrow",
+      "common_name": "White-throated Sparrow",
+      "file": "/audio/birds/white_throated_sparrow.mp3",
+      "dominant_freq_hz": 4585.0,
+      "onset_density": 4.65,
+      "onset_interval_ms": 185.8,
+      "suggested_role": "texture"
+    },
+    {
+      "id": "wood_thrush",
+      "common_name": "Wood Thrush",
+      "file": "/audio/birds/wood_thrush.mp3",
+      "dominant_freq_hz": 3650.0,
+      "onset_density": 3.18,
+      "onset_interval_ms": 255.4,
+      "suggested_role": "texture"
+    }
+  ],
+  "beats": [
+    {
+      "id": "soft",
+      "name": "Soft",
+      "file": "/audio/beats/soft_beat.mp3"
+    },
+    {
+      "id": "tribal",
+      "name": "Tribal",
+      "file": "/audio/beats/tribal_beat.mp3"
+    },
+    {
+      "id": "electronic",
+      "name": "Electronic",
+      "file": "/audio/beats/electronic_beat.mp3"
+    }
+  ]
+}
