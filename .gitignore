@@ -31,3 +31,4 @@ assets/soundfonts/*.sf2
 # frontend/public/library/  and  frontend/public/library_manifest.json
 # are intentionally committed — they are what the Library page serves.
 !frontend/public/library/
+.env.local
