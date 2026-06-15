@@ -28,13 +28,22 @@ export default function Root() {
   const navigate = useNavigate();
 
   useEffect(() => {
+    const params = new URLSearchParams(location.search);
+    const signedUp = params.get('signed_up') === 'true';
+
+    if (signedUp) {
+      localStorage.setItem('nt_signed_up', 'true');
+      navigate('/listen', { replace: true });
+      return;
+    }
+
     const navEntry = performance.getEntriesByType?.('navigation')?.[0];
     const isReload = navEntry?.type === 'reload';
 
     if (isReload && location.pathname !== '/') {
       navigate('/', { replace: true });
     }
-  }, [location.pathname, navigate]);
+  }, [location.pathname, location.search, navigate]);
 
   return (
     <Routes>
