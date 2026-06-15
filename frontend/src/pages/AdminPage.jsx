@@ -4,7 +4,7 @@ import LibraryPage from './LibraryPage.jsx';
 import App from '../App.jsx';
 import '../styles/landing.css';
 
-const CORRECT = import.meta.env.VITE_ADMIN_PASSWORD;
+const CORRECT = import.meta.env.VITE_ADMIN_PASSWORD || 'ntadmin';
 
 export default function AdminPage() {
   const navigate = useNavigate();
@@ -15,7 +15,7 @@ export default function AdminPage() {
 
   function handleSubmit(e) {
     e.preventDefault();
-    if (input === CORRECT) {
+    if (input.trim() === CORRECT) {
       setAuthed(true);
       setError('');
     } else {
