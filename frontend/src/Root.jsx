@@ -1,4 +1,4 @@
-import { useEffect } from 'react';
+import { useEffect, useRef } from 'react';
 import { Routes, Route, NavLink, useLocation, useNavigate } from 'react-router-dom';
 import App from './App.jsx';
 import LibraryPage from './pages/LibraryPage.jsx';
@@ -26,6 +26,7 @@ function TopNav() {
 export default function Root() {
   const location = useLocation();
   const navigate = useNavigate();
+  const handledInitialLoad = useRef(false);
 
   useEffect(() => {
     const params = new URLSearchParams(location.search);
@@ -36,6 +37,9 @@ export default function Root() {
       navigate('/listen', { replace: true });
       return;
     }
+
+    if (handledInitialLoad.current) return;
+    handledInitialLoad.current = true;
 
     const navEntry = performance.getEntriesByType?.('navigation')?.[0];
     const isReload = navEntry?.type === 'reload';
