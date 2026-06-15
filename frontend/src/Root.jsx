@@ -1,4 +1,5 @@
-import { Routes, Route, NavLink } from 'react-router-dom';
+import { useEffect } from 'react';
+import { Routes, Route, NavLink, useLocation, useNavigate } from 'react-router-dom';
 import App from './App.jsx';
 import LibraryPage from './pages/LibraryPage.jsx';
 import LandingPage from './pages/LandingPage.jsx';
@@ -23,6 +24,18 @@ function TopNav() {
 }
 
 export default function Root() {
+  const location = useLocation();
+  const navigate = useNavigate();
+
+  useEffect(() => {
+    const navEntry = performance.getEntriesByType?.('navigation')?.[0];
+    const isReload = navEntry?.type === 'reload';
+
+    if (isReload && location.pathname !== '/') {
+      navigate('/', { replace: true });
+    }
+  }, [location.pathname, navigate]);
+
   return (
     <Routes>
       <Route path="/"         element={<LandingPage />} />
