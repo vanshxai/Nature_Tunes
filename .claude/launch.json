@@ -3,7 +3,7 @@
   "configurations": [
     {
       "name": "yogam",
-      "runtimeExecutable": "python3",
+      "runtimeExecutable": "/opt/miniconda3/bin/python3",
       "runtimeArgs": ["-m", "http.server", "4321", "--directory", "/Users/mac/Desktop/YogamAyurveda"],
       "port": 4321
     },
@@ -21,6 +21,12 @@
       "cwd": "frontend",
       "port": 5173,
       "autoPort": true
+    }
+  ,{
+      "name": "white-plumbing",
+      "runtimeExecutable": "python3",
+      "runtimeArgs": ["-m", "http.server", "3456", "--directory", "/Users/mac/Desktop/white-plumbing"],
+      "port": 3456
     }
   ]
 }

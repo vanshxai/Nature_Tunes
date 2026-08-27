@@ -1,7 +1,7 @@
 import { useState } from 'react';
 
 const ADMIN_PASSWORD = 'admin';
-const SESSION_KEY = 'birdmind_admin';
+const SESSION_KEY = 'naturetunes_admin';
 
 export default function AdminPanel({ manifest, onClose }) {
   const [authed, setAuthed] = useState(

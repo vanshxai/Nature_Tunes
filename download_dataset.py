@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""BirdMind prototype dataset downloader.
+"""NatureTunes prototype dataset downloader.
 
 Downloads high-quality song recordings of 15 target bird species from the
 Xeno-Canto API v2, then extracts acoustic features with librosa and writes a
@@ -64,7 +64,7 @@ MAX_DURATION = 180     # seconds
 API_RATE_LIMIT = 1.5   # seconds between API calls
 DOWNLOAD_TIMEOUT = 30  # seconds per file
 MAX_RETRIES = 3
-USER_AGENT = "BirdMind-prototype/1.0 (research dataset downloader)"
+USER_AGENT = "NatureTunes-prototype/1.0 (research dataset downloader)"
 
 # Quality grade ordering (A best). Anything else sorts last.
 QUALITY_ORDER = {"A": 0, "B": 1, "C": 2, "D": 3, "E": 4}
@@ -73,7 +73,7 @@ QUALITY_ORDER = {"A": 0, "B": 1, "C": 2, "D": 3, "E": 4}
 # Logging / setup
 # ----------------------------------------------------------------------------
 
-logger = logging.getLogger("birdmind")
+logger = logging.getLogger("naturetunes")
 
 
 def setup():

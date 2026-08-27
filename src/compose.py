@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""BirdMind prototype composition engine.
+"""NatureTunes prototype composition engine.
 
 Maps a mood to a 3-layer (texture / melody / anchor) birdsong mix and renders
 an MP3. Selects source recordings from the prototype dataset by onset and
@@ -210,7 +210,7 @@ def _print_report(mood, selected, duration_s, out_path):
     tex, mel, anc = selected["texture"], selected["melody"], selected["anchor"]
     rel = out_path.relative_to(BASE_DIR)
     print("\n============================")
-    print("BirdMind Composition Report")
+    print("NatureTunes Composition Report")
     print("============================")
     print(f"Mood        : {mood}")
     print(f"Texture     : {tex['common_name']} (XC#{tex['xc_id']}) — "
@@ -268,7 +268,7 @@ def compose_all():
 
 
 def main():
-    parser = argparse.ArgumentParser(description="BirdMind composition engine")
+    parser = argparse.ArgumentParser(description="NatureTunes composition engine")
     group = parser.add_mutually_exclusive_group(required=True)
     group.add_argument("--mood", choices=list(MOOD_RULES), help="compose a single mood")
     group.add_argument("--all", action="store_true", help="compose all five moods")

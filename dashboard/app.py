@@ -2,7 +2,7 @@
 dashboard/app.py — NatureTunes local MIDI/MP3 browser.
 
 Usage:
-  cd /path/to/BirdMind
+  cd /path/to/NatureTunes
   python dashboard/app.py                          # uses data/midi_library/
   python dashboard/app.py --library /custom/path   # custom library folder
   python dashboard/app.py --port 8080              # custom port (default 5050)

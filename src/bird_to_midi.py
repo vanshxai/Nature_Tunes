@@ -1,5 +1,5 @@
 """
-bird_to_midi.py — convert BirdMind audio recordings to MIDI.
+bird_to_midi.py — convert NatureTunes audio recordings to MIDI.
 
 Usage:
   python src/bird_to_midi.py --file <path>    --method pyin|basic_pitch [--quantize]
@@ -319,7 +319,7 @@ def slug_to_common_name(slug: str, df: pd.DataFrame) -> str | None:
 # ── CLI ───────────────────────────────────────────────────────────────────────
 
 def main():
-    parser = argparse.ArgumentParser(description="Convert BirdMind audio to MIDI")
+    parser = argparse.ArgumentParser(description="Convert NatureTunes audio to MIDI")
     group = parser.add_mutually_exclusive_group(required=True)
     group.add_argument("--file", type=Path, help="Single audio file path")
     group.add_argument("--species", type=str, help="Species common name or slug")

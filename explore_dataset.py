@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""BirdMind prototype dataset exploration report.
+"""NatureTunes prototype dataset exploration report.
 
 Loads data/prototype/prototype_metadata.csv and prints / saves a full
 exploration report. Pure CSV analysis — pandas + numpy only.
@@ -44,7 +44,7 @@ def main():
     df = pd.read_csv(CSV_PATH)
     n = len(df)
 
-    hr("BirdMind Prototype Dataset — Exploration Report")
+    hr("NatureTunes Prototype Dataset — Exploration Report")
     out(f"Source : {CSV_PATH}")
     out(f"Records: {n}")
     out(f"Species: {df.common_name.nunique()}")

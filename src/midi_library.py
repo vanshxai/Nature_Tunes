@@ -1,5 +1,5 @@
 """
-midi_library.py — build a clean MIDI sample library from BirdMind recordings.
+midi_library.py — build a clean MIDI sample library from NatureTunes recordings.
 
 Converts the single best (lowest silence_ratio) recording per species to MIDI
 using basic_pitch, then organises audio + MIDI side-by-side in data/midi_library/.
@@ -169,7 +169,7 @@ def main() -> None:
 
     print()
     print("=" * 30)
-    print("BirdMind MIDI Sample Library")
+    print("NatureTunes MIDI Sample Library")
     print("=" * 30)
     print(f"Species converted : {converted}/{total}")
     print(f"Total MIDI notes  : {total_notes}")

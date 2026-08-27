@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""BirdMind asset preparer.
+"""NatureTunes asset preparer.
 
 Extracts one clean 20-second clip per species (best onset window of the
 cleanest recording) and generates 3 programmatic beat loops, all ready for
@@ -302,7 +302,7 @@ def suggested_role(onset_density: float, onset_interval_ms: float) -> str:
 # ── Main ──────────────────────────────────────────────────────────────────────
 
 def main():
-    print("BirdMind Asset Preparer")
+    print("NatureTunes Asset Preparer")
     print("=" * 60)
 
     df = pd.read_csv(CSV_PATH)

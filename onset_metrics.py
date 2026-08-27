@@ -23,7 +23,7 @@ CSV_PATH = BASE_DIR / "data" / "prototype" / "prototype_metadata.csv"
 ERROR_LOG = BASE_DIR / "data" / "prototype" / "errors.log"
 SR = 22050
 
-logger = logging.getLogger("birdmind.onset")
+logger = logging.getLogger("naturetunes.onset")
 logger.setLevel(logging.INFO)
 _fh = logging.FileHandler(ERROR_LOG, mode="a")
 _fh.setFormatter(logging.Formatter("%(asctime)s %(levelname)s %(message)s"))
