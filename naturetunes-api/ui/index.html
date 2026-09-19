@@ -1,0 +1,1321 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>NatureTunes</title>
+<style>
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+body {
+  background: #060a06;
+  display: flex; justify-content: center; align-items: flex-start;
+  min-height: 100vh;
+  font-family: -apple-system, BlinkMacSystemFont, 'SF Pro Display', 'Segoe UI', sans-serif;
+  padding: 20px 16px;
+}
+
+/* ── PHONE SHELL ── */
+.phone {
+  width: 390px;
+  height: min(844px, calc(100vh - 40px));
+  background: #111;
+  border-radius: 50px;
+  padding: 14px;
+  box-shadow: 0 0 0 1px #222, 0 0 0 2px #111, 0 50px 120px rgba(0,0,0,0.95);
+  display: flex; flex-direction: column;
+  overflow: hidden;
+  position: relative;
+}
+
+.notch {
+  width: 120px; height: 32px;
+  background: #060a06;
+  border-radius: 0 0 20px 20px;
+  margin: 0 auto 8px;
+  flex-shrink: 0;
+  position: relative;
+  z-index: 1;
+}
+
+.screen {
+  background: #0b0f0b;
+  border-radius: 36px;
+  flex: 1;
+  display: flex; flex-direction: column;
+  overflow: hidden;
+  position: relative;
+}
+
+/* ── HEADER ── */
+.header {
+  padding: 16px 20px 14px;
+  display: flex; align-items: center; gap: 12px;
+  flex-shrink: 0;
+  background: #0b0f0b;
+}
+
+.logo-mark {
+  width: 38px; height: 38px;
+  background: linear-gradient(145deg, #22a83e, #0d6124);
+  border-radius: 11px;
+  display: flex; align-items: center; justify-content: center;
+  flex-shrink: 0;
+  box-shadow: 0 3px 12px rgba(34,168,62,0.35);
+}
+
+.logo-mark svg { display: block; }
+
+.header-info { flex: 1; }
+.app-name { font-size: 18px; font-weight: 700; color: #f0faf0; letter-spacing: -0.5px; }
+.app-tagline { font-size: 10px; color: #3a6b3c; margin-top: 1px; letter-spacing: 0.2px; }
+
+.beta-pill {
+  font-size: 9px; font-weight: 700; letter-spacing: 0.8px;
+  color: #0b0f0b; background: #56e070;
+  border-radius: 20px; padding: 3px 8px;
+}
+
+/* ── TAB CONTENT AREA ── */
+.screens { flex: 1; overflow: hidden; display: flex; flex-direction: column; }
+
+.tab-screen { display: none; flex-direction: column; flex: 1; overflow: hidden; }
+.tab-screen.active { display: flex; }
+
+/* Section header inside tabs */
+.tab-header {
+  padding: 16px 20px 12px;
+  flex-shrink: 0;
+}
+.tab-title { font-size: 22px; font-weight: 700; color: #f0faf0; letter-spacing: -0.5px; }
+.tab-sub { font-size: 11px; color: #3a6b3c; margin-top: 2px; }
+
+/* Scrollable content */
+.scroll-body {
+  flex: 1; overflow-y: auto; overflow-x: hidden;
+  padding: 0 16px 16px;
+  -webkit-overflow-scrolling: touch;
+}
+.scroll-body::-webkit-scrollbar { width: 0; }
+
+/* ── CREATE TAB ── */
+.step-label {
+  font-size: 10px; font-weight: 700; color: #3a6b3c;
+  text-transform: uppercase; letter-spacing: 1.5px;
+  margin: 0 0 10px;
+}
+
+/* Horizontal bird carousel */
+.bird-carousel-wrap {
+  overflow-x: auto; overflow-y: hidden;
+  margin: 0 -4px 20px;
+  padding: 4px 4px 10px;
+  -webkit-overflow-scrolling: touch;
+  scrollbar-width: none;
+}
+.bird-carousel-wrap::-webkit-scrollbar { display: none; }
+.bird-carousel { display: flex; gap: 8px; width: max-content; }
+
+.bird-tile {
+  width: 90px; flex-shrink: 0;
+  background: #141a14;
+  border: 1.5px solid #1c2a1c;
+  border-radius: 16px;
+  padding: 11px 10px 10px;
+  cursor: pointer;
+  position: relative;
+  transition: border-color 0.18s, background 0.18s, transform 0.12s;
+}
+.bird-tile:active { transform: scale(0.96); }
+.bird-tile.selected { border-color: #56e070; background: #111f12; }
+
+.bird-tile-icon {
+  width: 32px; height: 32px;
+  background: #1a2a1a;
+  border-radius: 9px;
+  display: flex; align-items: center; justify-content: center;
+  margin-bottom: 8px;
+}
+.bird-tile.selected .bird-tile-icon { background: #1d3620; }
+.bird-tile-icon svg { width: 17px; height: 17px; stroke: #56e070; fill: none; stroke-width: 1.5; stroke-linecap: round; stroke-linejoin: round; }
+
+.bird-tile-name { font-size: 10px; font-weight: 600; color: #c8e8c8; line-height: 1.3; word-break: break-word; }
+
+/* Selection check — top LEFT corner */
+.tile-check {
+  position: absolute; top: 7px; left: 7px;
+  width: 17px; height: 17px; background: #56e070;
+  border-radius: 50%; display: none;
+  align-items: center; justify-content: center;
+}
+.bird-tile.selected .tile-check { display: flex; }
+.tile-check svg { width: 8px; height: 8px; stroke: #0b0f0b; fill: none; stroke-width: 2.5; stroke-linecap: round; }
+
+/* Preview button — top RIGHT corner, always visible */
+.tile-preview {
+  position: absolute; top: 7px; right: 7px;
+  width: 20px; height: 20px; background: #1a2a1a;
+  border-radius: 50%; border: none; cursor: pointer;
+  display: flex; align-items: center; justify-content: center;
+  transition: background 0.15s;
+}
+.tile-preview.active { background: #56e070; }
+.tile-preview svg { width: 7px; height: 7px; fill: #56e070; }
+.tile-preview.active svg { fill: #0b0f0b; }
+
+/* Tune list */
+.tune-list { display: flex; flex-direction: column; gap: 7px; margin-bottom: 20px; }
+.tune-row {
+  display: flex; align-items: center; gap: 12px;
+  background: #141a14; border: 1.5px solid #1c2a1c;
+  border-radius: 13px; padding: 11px 14px;
+  cursor: pointer; transition: border-color 0.15s, background 0.15s;
+}
+.tune-row.selected { border-color: #56e070; background: #111f12; }
+.tune-num {
+  width: 28px; height: 28px; background: #1a2a1a;
+  border-radius: 8px; display: flex; align-items: center; justify-content: center;
+  font-size: 12px; font-weight: 700; color: #56e070; flex-shrink: 0;
+}
+.tune-row.selected .tune-num { background: #56e070; color: #0b0f0b; }
+.tune-name { font-size: 12px; font-weight: 600; color: #c8e8c8; flex: 1; }
+.tune-play {
+  width: 28px; height: 28px; background: #1a2a1a; border-radius: 50%;
+  border: none; cursor: pointer; flex-shrink: 0;
+  display: flex; align-items: center; justify-content: center;
+  transition: background 0.15s;
+}
+.tune-play:active { background: #2a4a2a; }
+.tune-play.active { background: #56e070; }
+.tune-play svg { width: 8px; height: 8px; fill: #56e070; }
+.tune-play.active svg { fill: #0b0f0b; }
+
+/* Generate button */
+.gen-btn {
+  width: 100%;
+  padding: 17px;
+  background: linear-gradient(145deg, #22a83e, #0d6124);
+  border: none; border-radius: 18px;
+  display: flex; align-items: center; justify-content: center; gap: 10px;
+  cursor: pointer;
+  box-shadow: 0 6px 24px rgba(34,168,62,0.3), 0 2px 8px rgba(0,0,0,0.4);
+  transition: opacity 0.15s, transform 0.12s;
+  margin-bottom: 16px;
+}
+.gen-btn:active { transform: scale(0.98); opacity: 0.88; }
+.gen-btn-icon svg { width: 20px; height: 20px; fill: #f0faf0; stroke: none; }
+.gen-btn-label { font-size: 15px; font-weight: 700; color: #f0faf0; letter-spacing: -0.2px; }
+
+/* Processing */
+.proc-card {
+  background: #141a14; border: 1.5px solid #1c2a1c;
+  border-radius: 16px; padding: 20px;
+  text-align: center; display: none;
+}
+.proc-card.visible { display: block; }
+.spin { width: 32px; height: 32px; border: 2px solid #1c2a1c; border-top-color: #56e070; border-radius: 50%; animation: spin 0.7s linear infinite; margin: 0 auto 12px; }
+@keyframes spin { to { transform: rotate(360deg); } }
+.proc-label { font-size: 13px; font-weight: 600; color: #56e070; }
+.proc-detail { font-size: 10px; color: #2e4e2e; margin-top: 4px; }
+
+/* ── LIBRARY TRACK ROW ── */
+.lib-section-title {
+  font-size: 10px; font-weight: 700; color: #3a6b3c;
+  text-transform: uppercase; letter-spacing: 1.4px;
+  margin: 4px 0 10px;
+}
+
+.track-row {
+  display: flex; align-items: center; gap: 12px;
+  padding: 11px 14px;
+  background: #141a14; border: 1.5px solid #1c2a1c;
+  border-radius: 14px; margin-bottom: 7px;
+  cursor: pointer;
+  transition: border-color 0.2s, background 0.2s;
+  position: relative;
+}
+.track-row.now-playing {
+  border-color: #56e070;
+  background: #0f1e10;
+}
+
+/* Green left accent bar when playing */
+.track-row.now-playing::before {
+  content: '';
+  position: absolute; left: 0; top: 20%; bottom: 20%;
+  width: 3px; background: #56e070;
+  border-radius: 0 3px 3px 0;
+}
+
+.track-art {
+  width: 40px; height: 40px; background: #1a2a1a;
+  border-radius: 11px; display: flex; align-items: center; justify-content: center;
+  flex-shrink: 0; position: relative; overflow: hidden;
+}
+.track-row.now-playing .track-art { background: #1d3620; }
+.track-art svg { width: 18px; height: 18px; stroke: #56e070; fill: none; stroke-width: 1.5; stroke-linecap: round; }
+
+/* Mini pulsing bars on art when playing */
+.art-pulse {
+  display: none;
+  position: absolute; inset: 0;
+  align-items: flex-end; justify-content: center; gap: 2px;
+  padding: 8px 10px;
+}
+.track-row.now-playing .art-pulse { display: flex; }
+.track-row.now-playing .track-art > svg { display: none; }
+.art-bar { width: 3px; background: #56e070; border-radius: 2px; animation: artbar 0.8s ease-in-out infinite; }
+.art-bar:nth-child(2) { animation-delay: 0.2s; }
+.art-bar:nth-child(3) { animation-delay: 0.1s; }
+.art-bar:nth-child(4) { animation-delay: 0.3s; }
+@keyframes artbar { 0%,100%{height:4px} 50%{height:18px} }
+
+.track-text { flex: 1; min-width: 0; }
+.track-title { font-size: 12px; font-weight: 600; color: #c8e8c8; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+.track-meta-row { display: flex; align-items: center; gap: 5px; margin-top: 3px; }
+.track-dur { font-size: 10px; color: #2e4e2e; }
+.track-badge-new { font-size: 8px; font-weight: 700; color: #0b0f0b; background: #56e070; border-radius: 4px; padding: 1px 5px; }
+.track-badge-sample { font-size: 8px; font-weight: 600; color: #3a6b3c; background: #141a14; border: 1px solid #1c2a1c; border-radius: 4px; padding: 1px 5px; }
+
+.track-play-icon {
+  width: 34px; height: 34px; flex-shrink: 0;
+  background: #1a2a1a; border-radius: 50%; border: none;
+  cursor: pointer; display: flex; align-items: center; justify-content: center;
+  transition: background 0.15s, transform 0.1s;
+}
+.track-play-icon:active { transform: scale(0.9); }
+.track-row.now-playing .track-play-icon { background: #56e070; }
+.track-play-icon svg { width: 10px; height: 10px; fill: #56e070; }
+.track-row.now-playing .track-play-icon svg { fill: #0b0f0b; }
+
+.lib-empty-state {
+  text-align: center; padding: 40px 20px;
+  color: #2e4e2e; font-size: 11px; line-height: 2;
+}
+
+/* ── BIRD LIBRARY ── */
+.bird-row {
+  display: flex; align-items: center; gap: 12px;
+  padding: 11px 14px;
+  background: #141a14; border: 1.5px solid #1c2a1c;
+  border-radius: 14px; margin-bottom: 7px;
+}
+.bird-row-icon {
+  width: 38px; height: 38px; background: #1a2a1a;
+  border-radius: 10px; display: flex; align-items: center; justify-content: center; flex-shrink: 0;
+}
+.bird-row-icon svg { width: 18px; height: 18px; stroke: #56e070; fill: none; stroke-width: 1.5; stroke-linecap: round; }
+.bird-row-name { flex: 1; font-size: 12px; font-weight: 600; color: #c8e8c8; }
+.bird-pp {
+  width: 32px; height: 32px; background: #1a2a1a;
+  border-radius: 50%; border: none; cursor: pointer;
+  display: flex; align-items: center; justify-content: center;
+  flex-shrink: 0; transition: background 0.15s;
+}
+.bird-pp.active { background: #56e070; }
+.bird-pp svg { width: 9px; height: 9px; fill: #56e070; }
+.bird-pp.active svg { fill: #0b0f0b; }
+
+/* ── SETTINGS ── */
+.settings-group { margin-bottom: 20px; }
+.settings-label {
+  font-size: 10px; font-weight: 700; color: #3a6b3c;
+  text-transform: uppercase; letter-spacing: 1.3px;
+  margin-bottom: 8px; padding: 0 2px;
+}
+
+/* Server connection card */
+.server-card {
+  border-radius: 16px; padding: 16px;
+  border: 1.5px solid #1c2a1c; background: #141a14;
+  transition: border-color 0.5s, background 0.5s;
+}
+.server-card.ok  { border-color: #56e07044; background: #0f1e10; }
+.server-card.err { border-color: #e0555544; background: #1e0f0f; }
+
+.server-row { display: flex; align-items: center; gap: 12px; }
+.server-indicator {
+  width: 36px; height: 36px; border-radius: 10px;
+  background: #1a2a1a; display: flex; align-items: center; justify-content: center;
+  flex-shrink: 0; position: relative;
+}
+.server-dot {
+  width: 12px; height: 12px; border-radius: 50%;
+  background: #2e4e2e;
+  transition: background 0.4s, box-shadow 0.4s;
+}
+.server-card.ok  .server-dot { background: #56e070; box-shadow: 0 0 8px #56e07066; }
+.server-card.err .server-dot { background: #e05555; box-shadow: 0 0 8px #e0555566; }
+
+.server-text { flex: 1; }
+.server-status-text { font-size: 12px; font-weight: 600; color: #c8e8c8; }
+.server-card.ok  .server-status-text { color: #56e070; }
+.server-card.err .server-status-text { color: #e07070; }
+.server-url-text { font-size: 10px; color: #2e4e2e; margin-top: 2px; word-break: break-all; }
+
+.ping-btn {
+  font-size: 10px; font-weight: 600; color: #3a6b3c;
+  background: #1a2a1a; border: 1px solid #1c2a1c;
+  border-radius: 8px; padding: 6px 10px; cursor: pointer;
+  white-space: nowrap; transition: color 0.15s, border-color 0.15s;
+}
+.server-card.ok  .ping-btn { color: #56e070; border-color: #2a4a2a; }
+.ping-btn:active { opacity: 0.7; }
+
+/* Generic settings row */
+.s-row {
+  display: flex; align-items: center; gap: 12px;
+  background: #141a14; border: 1.5px solid #1c2a1c;
+  border-radius: 14px; padding: 13px 14px; margin-bottom: 7px;
+  cursor: pointer; transition: background 0.15s, border-color 0.15s;
+}
+.s-row:active { background: #111f12; border-color: #2a4a2a; }
+.s-icon {
+  width: 32px; height: 32px; background: #1a2a1a;
+  border-radius: 9px; display: flex; align-items: center; justify-content: center; flex-shrink: 0;
+}
+.s-icon svg { width: 15px; height: 15px; stroke: #56e070; fill: none; stroke-width: 1.6; stroke-linecap: round; }
+.s-text { flex: 1; }
+.s-title { font-size: 12px; font-weight: 600; color: #c8e8c8; }
+.s-desc  { font-size: 10px; color: #2e4e2e; margin-top: 2px; }
+.s-chev svg { width: 12px; height: 12px; stroke: #2a4a2a; fill: none; stroke-width: 2; stroke-linecap: round; }
+
+/* ── BOTTOM NAV ── */
+.bottom-nav {
+  display: flex; justify-content: space-around;
+  padding: 8px 8px 16px;
+  background: #0b0f0b;
+  border-top: 1px solid #141a14;
+  flex-shrink: 0;
+  position: relative; z-index: 5;
+}
+.nav-btn {
+  display: flex; flex-direction: column; align-items: center; gap: 4px;
+  cursor: pointer; padding: 5px 16px;
+  border-radius: 12px; opacity: 0.3;
+  transition: opacity 0.15s, background 0.15s;
+}
+.nav-btn.active { opacity: 1; }
+.nav-btn:active { background: #1a2a1a; }
+.nav-btn svg { width: 21px; height: 21px; stroke: #56e070; fill: none; stroke-width: 1.6; stroke-linecap: round; stroke-linejoin: round; }
+.nav-btn-label { font-size: 9px; color: #56e070; font-weight: 700; letter-spacing: 0.2px; }
+.nav-dot {
+  position: absolute; top: 4px; right: 8px;
+  width: 7px; height: 7px; border-radius: 50%;
+  background: #56e070; border: 1.5px solid #0b0f0b;
+  display: none;
+}
+.nav-dot.on { display: block; }
+.nav-lib-wrap { position: relative; }
+
+/* ── MINI PLAYER (Spotify-style, slides up) ── */
+.mini-player {
+  position: absolute;
+  bottom: 0; left: 0; right: 0;
+  background: #151f15;
+  border-top: 1px solid #1e2e1e;
+  border-radius: 20px 20px 0 0;
+  padding: 14px 18px 18px;
+  z-index: 10;
+  transform: translateY(100%);
+  transition: transform 0.32s cubic-bezier(0.4, 0, 0.2, 1);
+  box-shadow: 0 -8px 40px rgba(0,0,0,0.6);
+}
+.mini-player.open { transform: translateY(0); }
+
+.mp-drag-handle {
+  width: 36px; height: 3px; background: #2a3e2a;
+  border-radius: 2px; margin: 0 auto 14px;
+}
+
+/* Track info row */
+.mp-top {
+  display: flex; align-items: center; gap: 12px; margin-bottom: 14px;
+}
+.mp-art {
+  width: 44px; height: 44px; background: #1d3620;
+  border-radius: 12px; flex-shrink: 0;
+  display: flex; align-items: center; justify-content: center;
+  position: relative; overflow: hidden;
+}
+.mp-art svg { width: 20px; height: 20px; stroke: #56e070; fill: none; stroke-width: 1.5; stroke-linecap: round; }
+
+.mp-art-pulse {
+  display: none; position: absolute; inset: 0;
+  align-items: flex-end; justify-content: center; gap: 2px; padding: 8px;
+}
+.mini-player.playing .mp-art-pulse { display: flex; }
+.mini-player.playing .mp-art > svg { display: none; }
+.mp-art-bar { width: 3px; background: #56e070; border-radius: 2px; animation: artbar 0.8s ease-in-out infinite; }
+.mp-art-bar:nth-child(2) { animation-delay: 0.15s; }
+.mp-art-bar:nth-child(3) { animation-delay: 0.05s; }
+.mp-art-bar:nth-child(4) { animation-delay: 0.25s; }
+
+.mp-info { flex: 1; min-width: 0; }
+.mp-title { font-size: 13px; font-weight: 600; color: #f0faf0; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+.mp-source { font-size: 10px; color: #3a6b3c; margin-top: 2px; }
+
+.mp-close {
+  width: 28px; height: 28px; background: #1a2a1a; border-radius: 50%;
+  border: none; cursor: pointer; display: flex; align-items: center; justify-content: center;
+  flex-shrink: 0;
+}
+.mp-close svg { width: 11px; height: 11px; stroke: #3a6b3c; fill: none; stroke-width: 2; stroke-linecap: round; }
+
+/* Scrubber — full width */
+.mp-scrubber-wrap { margin-bottom: 12px; }
+input.mp-scrub {
+  -webkit-appearance: none; appearance: none;
+  width: 100%; height: 3px; border-radius: 2px; outline: none; cursor: pointer;
+  background: linear-gradient(to right, #56e070 0%, #1c2a1c 0%);
+  display: block; margin-bottom: 6px;
+}
+input.mp-scrub::-webkit-slider-thumb {
+  -webkit-appearance: none;
+  width: 14px; height: 14px; border-radius: 50%;
+  background: #56e070; cursor: pointer;
+  box-shadow: 0 0 0 2px #151f15;
+}
+.mp-time-row { display: flex; justify-content: space-between; }
+.mp-time { font-size: 10px; color: #3a6b3c; }
+
+/* Transport */
+.mp-transport {
+  display: flex; align-items: center; justify-content: center; gap: 20px;
+}
+.mp-t-btn {
+  width: 36px; height: 36px; background: none; border: none;
+  cursor: pointer; display: flex; align-items: center; justify-content: center;
+  border-radius: 50%; transition: background 0.12s;
+}
+.mp-t-btn:active { background: #1a2a1a; }
+.mp-t-btn svg { width: 20px; height: 20px; stroke: #56e070; fill: none; stroke-width: 1.8; stroke-linecap: round; }
+.mp-t-btn.skip svg { width: 16px; height: 16px; }
+
+.mp-pp {
+  width: 52px; height: 52px; border-radius: 50%;
+  background: #56e070; border: none; cursor: pointer;
+  display: flex; align-items: center; justify-content: center;
+  box-shadow: 0 4px 16px rgba(86,224,112,0.4);
+  transition: transform 0.1s, opacity 0.1s;
+}
+.mp-pp:active { transform: scale(0.94); opacity: 0.85; }
+.mp-pp svg { width: 18px; height: 18px; fill: #0b0f0b; }
+
+audio { display: none; }
+
+/* ── MODALS (sheets) ── */
+.sheet-overlay {
+  position: absolute; inset: 0;
+  background: rgba(0,0,0,0.6);
+  display: none; align-items: flex-end;
+  z-index: 20; border-radius: 36px;
+  backdrop-filter: blur(2px);
+}
+.sheet-overlay.open { display: flex; }
+.sheet {
+  background: #141a14; border-radius: 24px 24px 0 0;
+  padding: 0 20px 32px; width: 100%;
+  border-top: 1px solid #1c2a1c;
+  position: relative;
+}
+.sheet-handle {
+  width: 36px; height: 3px; background: #1c2a1c;
+  border-radius: 2px; margin: 14px auto 20px;
+}
+.sheet-close {
+  position: absolute; top: 14px; right: 18px;
+  width: 26px; height: 26px; background: #1a2a1a;
+  border-radius: 50%; border: none; cursor: pointer;
+  display: flex; align-items: center; justify-content: center;
+}
+.sheet-close svg { width: 10px; height: 10px; stroke: #3a6b3c; fill: none; stroke-width: 2; stroke-linecap: round; }
+
+.sheet-title { font-size: 17px; font-weight: 700; color: #f0faf0; margin-bottom: 4px; }
+.sheet-sub { font-size: 11px; color: #3a6b3c; margin-bottom: 20px; }
+.field-label { font-size: 10px; font-weight: 700; color: #3a6b3c; text-transform: uppercase; letter-spacing: 1px; display: block; margin-bottom: 6px; }
+.field {
+  width: 100%; background: #0b0f0b; border: 1.5px solid #1c2a1c;
+  border-radius: 12px; padding: 13px 15px; font-size: 14px; color: #f0faf0;
+  outline: none; margin-bottom: 14px; font-family: inherit;
+  transition: border-color 0.15s;
+}
+.field:focus { border-color: #56e070; }
+.field::placeholder { color: #2a4a2a; }
+textarea.field { resize: none; height: 100px; }
+
+.sheet-btn {
+  width: 100%; padding: 15px;
+  background: linear-gradient(145deg, #22a83e, #0d6124);
+  border: none; border-radius: 14px; font-size: 14px; font-weight: 700;
+  color: #f0faf0; cursor: pointer; margin-top: 4px;
+  box-shadow: 0 4px 18px rgba(34,168,62,0.25);
+  transition: opacity 0.15s;
+}
+.sheet-btn:active { opacity: 0.85; }
+.sheet-btn-ghost {
+  width: 100%; padding: 13px; background: none;
+  border: 1.5px solid #1c2a1c; border-radius: 14px;
+  font-size: 13px; color: #3a6b3c; cursor: pointer; margin-top: 9px;
+  transition: border-color 0.15s;
+}
+.sheet-btn-ghost:active { border-color: #2a4a2a; }
+.sent-state { text-align: center; padding: 20px 0; display: none; }
+.sent-state.on { display: block; }
+.sent-check { font-size: 36px; color: #56e070; }
+.sent-label { font-size: 14px; font-weight: 700; color: #f0faf0; margin-top: 10px; }
+.sent-sub { font-size: 11px; color: #3a6b3c; margin-top: 5px; }
+</style>
+</head>
+<body>
+
+<div class="phone">
+  <div class="notch"></div>
+  <div class="screen">
+
+    <!-- HEADER -->
+    <div class="header">
+      <div class="logo-mark">
+        <svg viewBox="0 0 24 24" width="24" height="24">
+          <path d="M1 13C3 9 7 7 11 9C11 9 9 5 13 4C13 4 14 8 17 6C20 4 23 3 23 3C23 3 19 8 18 11C20 10 23 11 23 11C23 11 20 14 17 13C15 13 14 15 12 15C8 15 4 17 1 13Z" fill="#a3f4b4"/>
+          <line x1="19.5" y1="1.5" x2="19.5" y2="5.5" stroke="#a3f4b4" stroke-width="1.4" stroke-linecap="round"/>
+          <line x1="22.5" y1="0.8" x2="22.5" y2="4.8" stroke="#a3f4b4" stroke-width="1.4" stroke-linecap="round"/>
+          <line x1="19.5" y1="1.5" x2="22.5" y2="0.8" stroke="#a3f4b4" stroke-width="1.4" stroke-linecap="round"/>
+          <circle cx="19.5" cy="6" r="1.2" fill="#a3f4b4"/>
+          <circle cx="22.5" cy="5.3" r="1.2" fill="#a3f4b4"/>
+        </svg>
+      </div>
+      <div class="header-info">
+        <div class="app-name">NatureTunes</div>
+        <div class="app-tagline">Music from bird voices</div>
+      </div>
+      <div class="beta-pill">BETA</div>
+    </div>
+
+    <!-- SCREENS -->
+    <div class="screens">
+
+      <!-- CREATE -->
+      <div id="tab-create" class="tab-screen active">
+        <div class="tab-header">
+          <div class="tab-title">Create</div>
+          <div class="tab-sub">Choose a bird voice and tune</div>
+        </div>
+        <div class="scroll-body">
+          <div class="step-label">① Bird Voice <span style="font-size:9px;color:#2e4e2e;text-transform:none;letter-spacing:0;">← scroll →</span></div>
+          <div class="bird-carousel-wrap"><div class="bird-carousel" id="birdGrid"></div></div>
+
+          <div class="step-label">② Tune</div>
+          <div class="tune-list" id="tuneList"></div>
+
+          <button class="gen-btn" onclick="generate()">
+            <div class="gen-btn-icon">
+              <svg viewBox="0 0 24 24"><path d="M12 2L14 9.5 22 11 14 12.5 12 20 10 12.5 2 11 10 9.5Z"/><path d="M19.5 1.5L20.2 3.8 22.5 4.5 20.2 5.2 19.5 7.5 18.8 5.2 16.5 4.5 18.8 3.8Z"/></svg>
+            </div>
+            <span class="gen-btn-label">Generate Music</span>
+          </button>
+
+          <div class="proc-card" id="procCard">
+            <div class="spin"></div>
+            <div class="proc-label" id="procLabel">Synthesising...</div>
+            <div class="proc-detail" id="procDetail"></div>
+          </div>
+        </div>
+      </div>
+
+      <!-- LIBRARY -->
+      <div id="tab-library" class="tab-screen">
+        <div class="tab-header">
+          <div class="tab-title">Library</div>
+          <div class="tab-sub" id="libCount">Your tracks</div>
+        </div>
+        <div class="scroll-body" id="libBody">
+          <!-- rendered by JS -->
+        </div>
+      </div>
+
+      <!-- BIRDS -->
+      <div id="tab-birds" class="tab-screen">
+        <div class="tab-header">
+          <div class="tab-title">Birds</div>
+          <div class="tab-sub">Tap ▶ to hear a 5-second preview</div>
+        </div>
+        <div class="scroll-body" id="birdBody"></div>
+      </div>
+
+      <!-- SETTINGS -->
+      <div id="tab-settings" class="tab-screen">
+        <div class="tab-header">
+          <div class="tab-title">Settings</div>
+          <div class="tab-sub">Account, audio &amp; about</div>
+        </div>
+        <div class="scroll-body">
+
+          <div class="settings-group">
+            <div class="settings-label">Server Connection</div>
+            <div class="server-card" id="srvCard">
+              <div class="server-row">
+                <div class="server-indicator"><div class="server-dot" id="srvDot"></div></div>
+                <div class="server-text">
+                  <div class="server-status-text" id="srvStatus">Checking...</div>
+                  <div class="server-url-text" id="srvUrl">—</div>
+                </div>
+                <button class="ping-btn" onclick="pingAPI()">Ping</button>
+              </div>
+            </div>
+          </div>
+
+          <div class="settings-group">
+            <div class="settings-label">Account</div>
+            <div class="s-row" onclick="openSheet('signin')">
+              <div class="s-icon"><svg viewBox="0 0 24 24"><circle cx="12" cy="8" r="4"/><path d="M4 20c0-4 3.6-7 8-7s8 3 8 7"/></svg></div>
+              <div class="s-text"><div class="s-title">Sign In</div><div class="s-desc">Phone number + PIN</div></div>
+              <div class="s-chev"><svg viewBox="0 0 8 14"><path d="M1 1L7 7 1 13" stroke-linejoin="round"/></svg></div>
+            </div>
+          </div>
+
+          <div class="settings-group">
+            <div class="settings-label">Audio</div>
+            <div class="s-row">
+              <div class="s-icon"><svg viewBox="0 0 24 24"><path d="M9 18V5l12-2v13"/><circle cx="6" cy="18" r="3"/><circle cx="18" cy="16" r="3"/></svg></div>
+              <div class="s-text"><div class="s-title">Output Format</div><div class="s-desc">MP3 · 192 kbps</div></div>
+              <div class="s-chev"><svg viewBox="0 0 8 14"><path d="M1 1L7 7 1 13" stroke-linejoin="round"/></svg></div>
+            </div>
+          </div>
+
+          <div class="settings-group">
+            <div class="settings-label">About</div>
+            <div class="s-row" onclick="openSheet('about')">
+              <div class="s-icon"><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="12"/><line x1="12" y1="16" x2="12.01" y2="16"/></svg></div>
+              <div class="s-text"><div class="s-title">About NatureTunes</div><div class="s-desc">Version 1.0.0 · Beta</div></div>
+              <div class="s-chev"><svg viewBox="0 0 8 14"><path d="M1 1L7 7 1 13" stroke-linejoin="round"/></svg></div>
+            </div>
+            <div class="s-row" onclick="openSheet('feedback')">
+              <div class="s-icon"><svg viewBox="0 0 24 24"><path d="M21 15a2 2 0 01-2 2H7l-4 4V5a2 2 0 012-2h14a2 2 0 012 2z"/></svg></div>
+              <div class="s-text"><div class="s-title">Message the Founder</div><div class="s-desc">Feedback goes to CEO directly</div></div>
+              <div class="s-chev"><svg viewBox="0 0 8 14"><path d="M1 1L7 7 1 13" stroke-linejoin="round"/></svg></div>
+            </div>
+          </div>
+
+        </div>
+      </div>
+
+    </div><!-- /screens -->
+
+    <!-- ── MINI PLAYER ── -->
+    <div class="mini-player" id="miniPlayer">
+      <div class="mp-drag-handle"></div>
+      <div class="mp-top">
+        <div class="mp-art" id="mpArt">
+          <svg viewBox="0 0 24 24"><path d="M9 18V5l12-2v13"/><circle cx="6" cy="18" r="3"/><circle cx="18" cy="16" r="3"/></svg>
+          <div class="mp-art-pulse">
+            <div class="mp-art-bar"></div>
+            <div class="mp-art-bar"></div>
+            <div class="mp-art-bar"></div>
+            <div class="mp-art-bar"></div>
+          </div>
+        </div>
+        <div class="mp-info">
+          <div class="mp-title" id="mpTitle">—</div>
+          <div class="mp-source" id="mpSource">—</div>
+        </div>
+        <button class="mp-close" onclick="closeMiniPlayer()">
+          <svg viewBox="0 0 24 24"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>
+        </button>
+      </div>
+
+      <!-- Scrubber full width -->
+      <div class="mp-scrubber-wrap">
+        <input class="mp-scrub" id="mpScrub" type="range" min="0" max="100" step="0.1" value="0"
+          oninput="onMpScrub(this.value)"/>
+        <div class="mp-time-row">
+          <span class="mp-time" id="mpElapsed">0:00</span>
+          <span class="mp-time" id="mpTotal">—</span>
+        </div>
+      </div>
+
+      <!-- Transport -->
+      <div class="mp-transport">
+        <button class="mp-t-btn skip" onclick="mpSeek(-10)" title="−10s">
+          <svg viewBox="0 0 24 24"><polyline points="1 4 1 10 7 10"/><path d="M3.51 15a9 9 0 1 0 .49-4"/></svg>
+        </button>
+        <button class="mp-pp" id="mpPP" onclick="mpTogglePlay()">
+          <svg viewBox="0 0 20 20" id="mpPPIco"><path d="M5 3L17 10 5 17Z"/></svg>
+        </button>
+        <button class="mp-t-btn skip" onclick="mpSeek(10)" title="+10s">
+          <svg viewBox="0 0 24 24"><polyline points="23 4 23 10 17 10"/><path d="M20.49 15a9 9 0 1 1-.49-4"/></svg>
+        </button>
+      </div>
+
+      <audio id="mpAudio"
+        ontimeupdate="onMpTime()"
+        onloadedmetadata="onMpMeta()"
+        onended="onMpEnded()"></audio>
+    </div>
+
+    <!-- BOTTOM NAV -->
+    <div class="bottom-nav">
+      <div class="nav-btn active" id="nav-create" onclick="switchTab('create')">
+        <svg viewBox="0 0 24 24"><path d="M12 2L14 9.5 22 11 14 12.5 12 20 10 12.5 2 11 10 9.5Z"/></svg>
+        <span class="nav-btn-label">Create</span>
+      </div>
+      <div class="nav-lib-wrap">
+        <div class="nav-btn" id="nav-library" onclick="switchTab('library')">
+          <svg viewBox="0 0 24 24"><path d="M9 18V5l12-2v13"/><circle cx="6" cy="18" r="3"/><circle cx="18" cy="16" r="3"/></svg>
+          <span class="nav-btn-label">Library</span>
+        </div>
+        <div class="nav-dot" id="libDot"></div>
+      </div>
+      <div class="nav-btn" id="nav-birds" onclick="switchTab('birds')">
+        <svg viewBox="0 0 24 24"><path d="M4 18C4 18 6 13 11 12 11 12 9.5 9.5 12 8 12 8 13.5 11 16 10 18.5 9 20 7.5 20 7.5 20 7.5 18 10 17 12 19 11 21 12 21 12 21 12 18.5 14 16 14 14.5 14 13.5 15 13 17 12 19 11 21 8.5 21 6 21 4 20 4 18Z"/></svg>
+        <span class="nav-btn-label">Birds</span>
+      </div>
+      <div class="nav-btn" id="nav-settings" onclick="switchTab('settings')">
+        <svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="3"/><path d="M12 2v2M12 20v2M4.22 4.22l1.42 1.42M18.36 18.36l1.42 1.42M2 12h2M20 12h2M4.22 19.78l1.42-1.42M18.36 5.64l1.42-1.42"/></svg>
+        <span class="nav-btn-label">Settings</span>
+      </div>
+    </div>
+
+    <!-- SHEETS -->
+    <div class="sheet-overlay" id="sheet-signin">
+      <div class="sheet">
+        <div class="sheet-handle"></div>
+        <button class="sheet-close" onclick="closeSheet('signin')"><svg viewBox="0 0 24 24"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg></button>
+        <div class="sheet-title">Sign In</div>
+        <div class="sheet-sub">Phone number + PIN — no OTP needed</div>
+        <label class="field-label">Phone Number</label>
+        <input class="field" type="tel" placeholder="+1 000 000 0000" id="fPhone"/>
+        <label class="field-label">PIN (4–6 chars)</label>
+        <input class="field" type="password" placeholder="Enter PIN" maxlength="6" id="fPin"/>
+        <button class="sheet-btn" onclick="doSignIn()">Sign In</button>
+        <button class="sheet-btn-ghost" onclick="openSheet('signup');closeSheet('signin')">New? Create account →</button>
+      </div>
+    </div>
+
+    <div class="sheet-overlay" id="sheet-signup">
+      <div class="sheet">
+        <div class="sheet-handle"></div>
+        <button class="sheet-close" onclick="closeSheet('signup')"><svg viewBox="0 0 24 24"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg></button>
+        <div class="sheet-title">Create Account</div>
+        <div class="sheet-sub">Your library is tied to your number</div>
+        <label class="field-label">Phone Number</label>
+        <input class="field" type="tel" placeholder="+1 000 000 0000" id="fPhone2"/>
+        <label class="field-label">Set PIN</label>
+        <input class="field" type="password" placeholder="Choose PIN" maxlength="6" id="fPin2"/>
+        <label class="field-label">Confirm PIN</label>
+        <input class="field" type="password" placeholder="Repeat PIN" maxlength="6" id="fPin3"/>
+        <button class="sheet-btn" onclick="doSignUp()">Create Account</button>
+        <button class="sheet-btn-ghost" onclick="openSheet('signin');closeSheet('signup')">Already have an account?</button>
+      </div>
+    </div>
+
+    <div class="sheet-overlay" id="sheet-about">
+      <div class="sheet">
+        <div class="sheet-handle"></div>
+        <button class="sheet-close" onclick="closeSheet('about')"><svg viewBox="0 0 24 24"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg></button>
+        <div style="text-align:center;padding:10px 0 20px;">
+          <div style="width:56px;height:56px;background:linear-gradient(145deg,#22a83e,#0d6124);border-radius:15px;display:flex;align-items:center;justify-content:center;margin:0 auto 12px;box-shadow:0 4px 18px rgba(34,168,62,0.3);">
+            <svg viewBox="0 0 24 24" width="32" height="32"><path d="M1 13C3 9 7 7 11 9C11 9 9 5 13 4C13 4 14 8 17 6C20 4 23 3 23 3C23 3 19 8 18 11C20 10 23 11 23 11C23 11 20 14 17 13C15 13 14 15 12 15C8 15 4 17 1 13Z" fill="#a3f4b4"/></svg>
+          </div>
+          <div style="font-size:20px;font-weight:700;color:#f0faf0;letter-spacing:-0.5px;">NatureTunes</div>
+          <div style="font-size:11px;color:#3a6b3c;margin-top:4px;">Version 1.0.0 · Beta</div>
+        </div>
+        <div style="font-size:13px;color:#7ab87c;line-height:1.85;text-align:center;">
+          We produce music using natural bird voices, adding elements of different instruments and tunes using AI. Each note is performed by a real bird — their calls are pitch-shifted and layered to create original compositions. Pure nature, turned into music.
+        </div>
+        <button class="sheet-btn" style="margin-top:22px;" onclick="closeSheet('about')">Close</button>
+      </div>
+    </div>
+
+    <div class="sheet-overlay" id="sheet-feedback">
+      <div class="sheet">
+        <div class="sheet-handle"></div>
+        <button class="sheet-close" onclick="closeSheet('feedback');resetFeedback()"><svg viewBox="0 0 24 24"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg></button>
+        <div id="fbForm">
+          <div class="sheet-title">Message the Founder</div>
+          <div class="sheet-sub">Goes directly to the CEO</div>
+          <textarea class="field" placeholder="Tell us what you think, what's missing, or what you'd love to see..." id="fbText"></textarea>
+          <button class="sheet-btn" onclick="submitFeedback()">Send Message</button>
+        </div>
+        <div class="sent-state" id="fbSent">
+          <div class="sent-check">✓</div>
+          <div class="sent-label">Message sent!</div>
+          <div class="sent-sub">The founder will read this personally.</div>
+        </div>
+      </div>
+    </div>
+
+  </div><!-- /screen -->
+</div><!-- /phone -->
+
+<script>
+// ─── CONFIG ──────────────────────────────────────────────────────────────────
+const API = (location.hostname === 'localhost' || location.hostname === '127.0.0.1')
+  ? '' : 'https://naturetunes.up.railway.app';
+
+// ─── STATE ───────────────────────────────────────────────────────────────────
+let selectedBird = null;
+let selectedTunes = new Set();
+let myTracks = [];
+let sampleTracks = [];
+let currentTrack = null;
+let birdClipAudio = null;
+let activeBirdBtn = null;
+let birdClipTimer = null;
+let currentUser = JSON.parse(localStorage.getItem('nt_user') || 'null'); // {user_id, phone}
+
+// ─── INIT ─────────────────────────────────────────────────────────────────────
+async function init() {
+  pingAPI();
+  updateProfileUI();
+  await Promise.all([loadBirds(), loadTunes(), loadSamples()]);
+  renderLibrary();
+}
+
+// ─── API STATUS ───────────────────────────────────────────────────────────────
+async function pingAPI() {
+  const card = document.getElementById('srvCard');
+  const status = document.getElementById('srvStatus');
+  const urlEl  = document.getElementById('srvUrl');
+  status.textContent = 'Connecting...';
+  urlEl.textContent  = API || 'http://localhost:8765';
+  card.className = 'server-card';
+  try {
+    const t0 = Date.now();
+    const d = await fetch(`${API}/`).then(r => r.json());
+    if (d.status === 'ok') {
+      card.className = 'server-card ok';
+      status.textContent = `Connected · ${Date.now()-t0}ms`;
+      urlEl.textContent  = API || 'http://localhost:8765';
+    }
+  } catch {
+    card.className = 'server-card err';
+    status.textContent = 'Not connected';
+    urlEl.textContent  = (API || 'http://localhost:8765') + ' — server offline?';
+  }
+}
+
+// ─── LOAD DATA ────────────────────────────────────────────────────────────────
+const birdIcon = () => `<svg viewBox="0 0 24 24"><path d="M4 18C4 18 6 13 11 12 11 12 9.5 9.5 12 8 12 8 13.5 11 16 10 18.5 9 20 7.5 20 7.5 20 7.5 18 10 17 12 19 11 21 12 21 12 21 12 18.5 14 16 14 14.5 14 13.5 15 13 17 12 19 11 21 8.5 21 6 21 4 20 4 18Z" stroke="#56e070" fill="none" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>`;
+
+let activeTilePreviewBtn = null;
+
+async function loadBirds() {
+  try {
+    const { birds } = await fetch(`${API}/birds`).then(r => r.json());
+
+    // Create tab — horizontal carousel, all birds
+    const grid = document.getElementById('birdGrid');
+    grid.innerHTML = '';
+    birds.forEach(b => {
+      const el = document.createElement('div');
+      el.className = 'bird-tile';
+      el.id = `bt-${b.id}`;
+      el.innerHTML = `
+        <div class="tile-check">
+          <svg viewBox="0 0 12 10"><polyline points="1,5 4,8 11,1" stroke="#0b0f0b" stroke-width="2.5" fill="none" stroke-linecap="round"/></svg>
+        </div>
+        <button class="tile-preview" id="tprev-${b.id}" onclick="tilePreview(event,'${b.id}','${b.name}','${API}${b.audio_url}')">
+          <svg viewBox="0 0 10 12"><path d="M1 1L9 6 1 11Z"/></svg>
+        </button>
+        <div class="bird-tile-icon">${birdIcon()}</div>
+        <div class="bird-tile-name">${b.name}</div>`;
+      el.onclick = e => { if (!e.target.closest('.tile-preview')) pickBird(b.id); };
+      grid.appendChild(el);
+    });
+
+    // Birds tab
+    const body = document.getElementById('birdBody');
+    body.innerHTML = '';
+    birds.forEach((b, i) => {
+      const el = document.createElement('div');
+      el.className = 'bird-row';
+      el.innerHTML = `
+        <div class="bird-row-icon">${birdIcon()}</div>
+        <div class="bird-row-name">${b.name}</div>
+        <button class="bird-pp" id="bpp-${i}" onclick="playTrack('bird_${b.id}','${b.name}','${API}${b.audio_url}','Bird voice · 6s preview')">
+          <svg viewBox="0 0 10 12"><path d="M1 1L9 6 1 11Z"/></svg>
+        </button>`;
+      body.appendChild(el);
+    });
+  } catch(e) { console.warn('loadBirds', e); }
+}
+
+function tilePreview(e, id, name, url) {
+  e.stopPropagation();
+  const btn = document.getElementById(`tprev-${id}`);
+  // If this tile is already playing in mini player — toggle it
+  if (currentTrack?.id === `bird_tile_${id}`) {
+    mpTogglePlay();
+    const playing = !document.getElementById('mpAudio').paused;
+    btn.classList.toggle('active', playing);
+    btn.innerHTML = playing
+      ? `<svg viewBox="0 0 10 10"><rect x="1" y="1" width="3" height="8" rx="1" fill="#0b0f0b"/><rect x="6" y="1" width="3" height="8" rx="1" fill="#0b0f0b"/></svg>`
+      : `<svg viewBox="0 0 10 12"><path d="M1 1L9 6 1 11Z" fill="#56e070"/></svg>`;
+    return;
+  }
+  // Reset previous tile preview button
+  if (activeTilePreviewBtn && activeTilePreviewBtn !== btn) {
+    activeTilePreviewBtn.classList.remove('active');
+    activeTilePreviewBtn.innerHTML = `<svg viewBox="0 0 10 12"><path d="M1 1L9 6 1 11Z" fill="#56e070"/></svg>`;
+  }
+  btn.classList.add('active');
+  btn.innerHTML = `<svg viewBox="0 0 10 10"><rect x="1" y="1" width="3" height="8" rx="1" fill="#0b0f0b"/><rect x="6" y="1" width="3" height="8" rx="1" fill="#0b0f0b"/></svg>`;
+  activeTilePreviewBtn = btn;
+  playTrack(`bird_tile_${id}`, name, url, 'Bird voice preview');
+}
+
+let tunePreviewAudio = null;
+let activeTuneBtn = null;
+
+async function loadTunes() {
+  try {
+    const { midis } = await fetch(`${API}/midis`).then(r => r.json());
+    const list = document.getElementById('tuneList');
+    list.innerHTML = '';
+    midis.forEach((m, i) => {
+      selectedTunes.add(m.id);
+      const num = i + 1;
+      const el = document.createElement('div');
+      el.className = 'tune-row selected';
+      el.id = `tr-${m.id}`;
+      el.innerHTML = `
+        <div class="tune-num">${num}</div>
+        <div class="tune-name">Tune ${num}</div>
+        <button class="tune-play" id="tpbtn-${num}" onclick="previewTune(event,${num})">
+          <svg viewBox="0 0 10 12"><path d="M1 1L9 6 1 11Z"/></svg>
+        </button>`;
+      el.onclick = e => { if (!e.target.closest('.tune-play')) toggleTune(m.id, el); };
+      list.appendChild(el);
+    });
+  } catch(e) { console.warn('loadTunes', e); }
+}
+
+function previewTune(e, num) {
+  e.stopPropagation();
+  // Route through mini player — same UX for everything
+  playTrack(`tune_${num}`, `Tune ${num}`, `${API}/tune-preview/${num}`, 'Tune preview');
+}
+
+async function loadSamples() {
+  try {
+    const { samples } = await fetch(`${API}/samples`).then(r => r.json());
+    sampleTracks = samples.map(s => ({
+      id: 'smp_' + s.id,
+      name: s.name,
+      url: `${API}${s.url}`,
+      isSample: true
+    }));
+  } catch(e) { console.warn('loadSamples', e); }
+}
+
+// ─── CREATE ACTIONS ───────────────────────────────────────────────────────────
+function pickBird(id) {
+  if (selectedBird) document.getElementById(`bt-${selectedBird}`)?.classList.remove('selected');
+  selectedBird = id;
+  document.getElementById(`bt-${id}`)?.classList.add('selected');
+}
+
+function toggleTune(id, el) {
+  selectedTunes.has(id) ? (selectedTunes.delete(id), el.classList.remove('selected'))
+                        : (selectedTunes.add(id),    el.classList.add('selected'));
+}
+
+
+async function generate() {
+  if (!selectedBird) { alert('Select a bird voice first'); return; }
+  if (!selectedTunes.size) { alert('Select at least one tune'); return; }
+  const card = document.getElementById('procCard');
+  card.classList.add('visible');
+  document.getElementById('procLabel').textContent = 'Synthesising bird voice...';
+  document.getElementById('procDetail').textContent = selectedBird.replace(/_/g,' ');
+  try {
+    const r = await fetch(`${API}/generate`, {
+      method: 'POST', headers: {'Content-Type':'application/json'},
+      body: JSON.stringify({ bird_id: selectedBird, midi_ids: [...selectedTunes], user_id: currentUser?.user_id || null })
+    });
+    const { job_id } = await r.json();
+    let s = 'queued';
+    while (s !== 'done' && s !== 'error') {
+      await sleep(1800);
+      const d = await fetch(`${API}/status/${job_id}`).then(r => r.json());
+      s = d.status;
+      if (s === 'done') onTrackReady(job_id, d);
+      if (s === 'error') alert('Error: ' + (d.error || 'Unknown'));
+    }
+  } catch(e) { alert('API error: ' + e.message); }
+  finally { card.classList.remove('visible'); }
+}
+
+function onTrackReady(job_id, data) {
+  const birdEl = document.getElementById(`bt-${selectedBird}`);
+  const birdName = birdEl?.querySelector('.bird-tile-name')?.textContent || selectedBird;
+  myTracks.unshift({
+    id: job_id,
+    name: `${birdName} × ${selectedTunes.size} Tune${selectedTunes.size>1?'s':''}`,
+    url: `${API}${data.audio_url}`,
+    isNew: true
+  });
+  renderLibrary();
+  if (!document.getElementById('tab-library').classList.contains('active')) {
+    document.getElementById('libDot').classList.add('on');
+  }
+}
+
+// ─── LIBRARY RENDER ───────────────────────────────────────────────────────────
+function renderLibrary() {
+  const body = document.getElementById('libBody');
+  body.innerHTML = '';
+  const total = myTracks.length + sampleTracks.length;
+  document.getElementById('libCount').textContent = total ? `${total} track${total>1?'s':''}` : 'Your tracks';
+
+  if (!total) {
+    body.innerHTML = `<div class="lib-empty-state">Generate a track on the Create tab.<br>Sample tracks will appear below.</div>`;
+    return;
+  }
+
+  if (myTracks.length) {
+    addLibSection(body, 'Your Tracks', myTracks);
+  }
+  if (sampleTracks.length) {
+    addLibSection(body, 'Sample Tunes', sampleTracks);
+  }
+}
+
+function addLibSection(container, label, tracks) {
+  const lbl = document.createElement('div');
+  lbl.className = 'lib-section-title';
+  lbl.textContent = label;
+  container.appendChild(lbl);
+
+  tracks.forEach(t => {
+    const el = document.createElement('div');
+    el.className = 'track-row';
+    el.id = `row-${t.id}`;
+
+    const badge = t.isNew
+      ? '<span class="track-badge-new">NEW</span>'
+      : t.isSample
+      ? '<span class="track-badge-sample">SAMPLE</span>'
+      : '';
+
+    el.innerHTML = `
+      <div class="track-art">
+        <svg viewBox="0 0 24 24"><path d="M9 18V5l12-2v13"/><circle cx="6" cy="18" r="3"/><circle cx="18" cy="16" r="3"/></svg>
+        <div class="art-pulse">
+          <div class="art-bar"></div><div class="art-bar"></div>
+          <div class="art-bar"></div><div class="art-bar"></div>
+        </div>
+      </div>
+      <div class="track-text">
+        <div class="track-title">${t.name} ${badge}</div>
+        <div class="track-meta-row">
+          <span class="track-dur" id="dur-${t.id}">—</span>
+        </div>
+      </div>
+      <button class="track-play-icon" onclick="playTrack('${t.id}','${t.name}','${t.url}','${t.isSample?'Sample tune':'Your track'}')">
+        <svg viewBox="0 0 10 12"><path d="M1 1L9 6 1 11Z"/></svg>
+      </button>`;
+    container.appendChild(el);
+
+    // Pre-load duration
+    const probe = new Audio(t.url);
+    probe.addEventListener('loadedmetadata', () => {
+      const durEl = document.getElementById(`dur-${t.id}`);
+      if (durEl) durEl.textContent = fmt(probe.duration);
+    });
+  });
+}
+
+// ─── MINI PLAYER ─────────────────────────────────────────────────────────────
+function playTrack(id, name, url, source) {
+  // If same track — toggle play/pause
+  const aud = document.getElementById('mpAudio');
+  if (currentTrack?.id === id) {
+    mpTogglePlay(); return;
+  }
+
+  // Clear previous playing state
+  clearNowPlaying();
+
+  // Set new track
+  currentTrack = { id, name, url, source };
+  document.getElementById('mpTitle').textContent  = name;
+  document.getElementById('mpSource').textContent = source;
+  aud.src = url;
+  aud.currentTime = 0;
+  aud.play();
+
+  // Open mini player
+  document.getElementById('miniPlayer').classList.add('open', 'playing');
+  setMpIcon(true);
+
+  // Mark row as playing
+  const row = document.getElementById(`row-${id}`);
+  if (row) row.classList.add('now-playing');
+
+  // Mark as no longer new
+  const track = [...myTracks, ...sampleTracks].find(t => t.id === id);
+  if (track) track.isNew = false;
+  const badge = row?.querySelector('.track-badge-new');
+  if (badge) badge.remove();
+}
+
+function mpTogglePlay() {
+  const aud = document.getElementById('mpAudio');
+  const mp  = document.getElementById('miniPlayer');
+  if (aud.paused) {
+    aud.play();
+    mp.classList.add('playing');
+    setMpIcon(true);
+  } else {
+    aud.pause();
+    mp.classList.remove('playing');
+    setMpIcon(false);
+  }
+}
+
+function closeMiniPlayer() {
+  const aud = document.getElementById('mpAudio');
+  aud.pause();
+  document.getElementById('miniPlayer').classList.remove('open','playing');
+  clearNowPlaying();
+  currentTrack = null;
+}
+
+function clearNowPlaying() {
+  document.querySelectorAll('.track-row.now-playing').forEach(r => r.classList.remove('now-playing'));
+}
+
+function setMpIcon(playing) {
+  document.getElementById('mpPPIco').innerHTML = playing
+    ? '<rect x="3" y="3" width="5" height="14" rx="1.5"/><rect x="12" y="3" width="5" height="14" rx="1.5"/>'
+    : '<path d="M5 3L17 10 5 17Z"/>';
+}
+
+function onMpMeta() {
+  const aud = document.getElementById('mpAudio');
+  if (isNaN(aud.duration)) return;
+  const s = document.getElementById('mpScrub');
+  s.max = aud.duration;
+  document.getElementById('mpTotal').textContent = fmt(aud.duration);
+}
+
+function onMpTime() {
+  const aud = document.getElementById('mpAudio');
+  const s   = document.getElementById('mpScrub');
+  if (!aud.duration) return;
+  const pct = (aud.currentTime / aud.duration) * 100;
+  s.value = aud.currentTime;
+  s.style.background = `linear-gradient(to right,#56e070 ${pct}%,#1c2a1c ${pct}%)`;
+  document.getElementById('mpElapsed').textContent = fmt(aud.currentTime);
+}
+
+function onMpScrub(v) {
+  const aud = document.getElementById('mpAudio');
+  aud.currentTime = parseFloat(v);
+  const pct = (v / aud.duration) * 100;
+  document.getElementById('mpScrub').style.background =
+    `linear-gradient(to right,#56e070 ${pct}%,#1c2a1c ${pct}%)`;
+}
+
+function mpSeek(d) {
+  const aud = document.getElementById('mpAudio');
+  aud.currentTime = Math.max(0, Math.min(aud.duration||0, aud.currentTime + d));
+}
+
+function onMpEnded() {
+  document.getElementById('miniPlayer').classList.remove('playing');
+  setMpIcon(false);
+  clearNowPlaying();
+  // Reset any bird-tab pp buttons
+  document.querySelectorAll('.bird-pp.active').forEach(b => {
+    b.classList.remove('active');
+    b.innerHTML = `<svg viewBox="0 0 10 12"><path d="M1 1L9 6 1 11Z" fill="#56e070"/></svg>`;
+  });
+  if (activeTilePreviewBtn) {
+    activeTilePreviewBtn.classList.remove('active');
+    activeTilePreviewBtn.innerHTML = `<svg viewBox="0 0 10 12"><path d="M1 1L9 6 1 11Z" fill="#56e070"/></svg>`;
+    activeTilePreviewBtn = null;
+  }
+}
+
+
+// ─── NAV & SHEETS ─────────────────────────────────────────────────────────────
+function switchTab(tab) {
+  document.querySelectorAll('.tab-screen').forEach(s => s.classList.remove('active'));
+  document.querySelectorAll('.nav-btn').forEach(n => n.classList.remove('active'));
+  document.getElementById(`tab-${tab}`).classList.add('active');
+  document.getElementById(`nav-${tab}`).classList.add('active');
+  if (tab === 'library') document.getElementById('libDot').classList.remove('on');
+}
+
+function openSheet(id)  { document.getElementById(`sheet-${id}`).classList.add('open'); }
+function closeSheet(id) { document.getElementById(`sheet-${id}`).classList.remove('open'); }
+
+async function doSignIn() {
+  const p = document.getElementById('fPhone').value.trim();
+  const n = document.getElementById('fPin').value.trim();
+  if (!p || !n) { alert('Enter phone and PIN'); return; }
+  try {
+    const r = await fetch(`${API}/auth/signin`, {
+      method: 'POST', headers: {'Content-Type':'application/json'},
+      body: JSON.stringify({phone: p, pin: n})
+    });
+    if (!r.ok) { const e = await r.json(); alert(e.detail || 'Sign in failed'); return; }
+    const data = await r.json();
+    currentUser = {user_id: data.user_id, phone: data.phone};
+    localStorage.setItem('nt_user', JSON.stringify(currentUser));
+    closeSheet('signin');
+    updateProfileUI();
+  } catch { alert('Connection error'); }
+}
+async function doSignUp() {
+  const p = document.getElementById('fPhone2').value.trim();
+  const n = document.getElementById('fPin2').value.trim();
+  const n2= document.getElementById('fPin3').value.trim();
+  if (!p || !n) { alert('Fill all fields'); return; }
+  if (n !== n2)  { alert('PINs do not match'); return; }
+  try {
+    const r = await fetch(`${API}/auth/signup`, {
+      method: 'POST', headers: {'Content-Type':'application/json'},
+      body: JSON.stringify({phone: p, pin: n})
+    });
+    if (!r.ok) { const e = await r.json(); alert(e.detail || 'Sign up failed'); return; }
+    const data = await r.json();
+    currentUser = {user_id: data.user_id, phone: data.phone};
+    localStorage.setItem('nt_user', JSON.stringify(currentUser));
+    closeSheet('signup');
+    updateProfileUI();
+  } catch { alert('Connection error'); }
+}
+async function submitFeedback() {
+  const msg = document.getElementById('fbText').value.trim();
+  if (!msg) { alert('Write something first'); return; }
+  try {
+    await fetch(`${API}/feedback`, {
+      method: 'POST', headers: {'Content-Type':'application/json'},
+      body: JSON.stringify({message: msg, user_id: currentUser?.user_id || null})
+    });
+  } catch { /* best-effort */ }
+  document.getElementById('fbForm').style.display = 'none';
+  document.getElementById('fbSent').classList.add('on');
+}
+function resetFeedback() {
+  document.getElementById('fbForm').style.display = '';
+  document.getElementById('fbSent').classList.remove('on');
+  document.getElementById('fbText').value = '';
+}
+function updateProfileUI() {
+  const el = document.getElementById('profileName');
+  if (el) el.textContent = currentUser ? currentUser.phone : 'Sign In';
+}
+
+// ─── UTILS ───────────────────────────────────────────────────────────────────
+const fmt = s => `${Math.floor((s||0)/60)}:${String(Math.floor((s||0)%60)).padStart(2,'0')}`;
+const sleep = ms => new Promise(r => setTimeout(r, ms));
+
+init();
+</script>
+</body>
+</html>
