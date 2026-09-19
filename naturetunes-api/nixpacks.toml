@@ -1,5 +1,6 @@
 [phases.setup]
-nixPkgs = ["python313", "ffmpeg"]
+nixPkgs = ["python313", "ffmpeg-full"]
+aptPkgs = ["ffmpeg"]
 
 [phases.install]
 cmds = [
