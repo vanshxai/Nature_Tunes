@@ -22,7 +22,7 @@ app = FastAPI(title="NatureTunes API", version="1.0.0")
 BASE        = os.path.dirname(os.path.abspath(__file__))
 PROJECT     = os.path.dirname(BASE)
 BIRD_DIR    = os.path.join(PROJECT, "data", "midi_library")
-MIDI_DIR    = os.path.join(PROJECT, "output", "midi_test", "whatsapp_tracks")
+MIDI_DIR    = os.path.join(BASE, "ui", "midi_tracks")
 OUTPUT_DIR  = os.path.join(BASE, "output")
 os.makedirs(OUTPUT_DIR, exist_ok=True)
 
