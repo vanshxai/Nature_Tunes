@@ -18,7 +18,17 @@ app = FastAPI(title="NatureTunes API", version="1.0.0")
 # When running locally: python -m uvicorn main:app --port 8765
 # On Railway: PORT env var is set automatically
 
-SAMPLES_DIR = os.path.join(BASE, "ui", "samples")
+# ── PATHS ───────────────────────────────────────────────────
+BASE        = os.path.dirname(os.path.abspath(__file__))
+PROJECT     = os.path.dirname(BASE)
+BIRD_DIR    = os.path.join(PROJECT, "data", "midi_library")
+MIDI_DIR    = os.path.join(PROJECT, "output", "midi_test", "whatsapp_tracks")
+OUTPUT_DIR  = os.path.join(BASE, "output")
+os.makedirs(OUTPUT_DIR, exist_ok=True)
+
+BIRD_CLEAN_DIR   = os.path.join(BASE, "ui", "bird_clean")
+TUNE_PREVIEW_DIR = os.path.join(BASE, "ui", "tune_previews")
+SAMPLES_DIR      = os.path.join(BASE, "ui", "samples")
 
 app.add_middleware(
     CORSMiddleware,
@@ -29,12 +39,6 @@ app.add_middleware(
 
 # ── PATHS ───────────────────────────────────────────────────
 BASE        = os.path.dirname(os.path.abspath(__file__))
-PROJECT     = os.path.dirname(BASE)
-BIRD_DIR    = os.path.join(PROJECT, "data", "midi_library")
-MIDI_DIR    = os.path.join(PROJECT, "output", "midi_test", "whatsapp_tracks")
-OUTPUT_DIR  = os.path.join(BASE, "output")
-os.makedirs(OUTPUT_DIR, exist_ok=True)
-
 # In-memory job store (use Redis/Supabase in production)
 jobs = {}
 
@@ -314,8 +318,6 @@ def list_birds():
 def list_midis():
     return {"midis": get_available_midis()}
 
-BIRD_CLEAN_DIR = os.path.join(BASE, "ui", "bird_clean")
-TUNE_PREVIEW_DIR = os.path.join(BASE, "ui", "tune_previews")
 
 @app.get("/bird-audio/{bird_id}")
 def bird_audio(bird_id: str):
