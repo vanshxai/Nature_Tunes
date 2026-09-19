@@ -130,16 +130,15 @@ def run_generation(job_id: str, bird_id: str, midi_ids: list[str]):
 
         import mido, librosa, numpy as np, soundfile as sf, subprocess
 
-        bird_path = os.path.join(BIRD_DIR, bird_id, f"{bird_id}_source.mp3")
-        if not os.path.exists(bird_path):
-            raise FileNotFoundError(f"Bird not found: {bird_id}")
-
         SR = 44100
 
-        # Prefer noise-reduced clean file
+        # Load from bird_clean (committed in repo); fall back to raw data dir if local
         clean_id = bird_id.replace("_", "-")
         clean_path = os.path.join(BIRD_CLEAN_DIR, f"{clean_id}.mp3")
-        load_path = clean_path if os.path.exists(clean_path) else bird_path
+        raw_path   = os.path.join(BIRD_DIR, bird_id, f"{bird_id}_source.mp3")
+        load_path  = clean_path if os.path.exists(clean_path) else raw_path
+        if not os.path.exists(load_path):
+            raise FileNotFoundError(f"Bird audio not found: {bird_id}")
 
         # Load bird audio
         y_bird, _ = librosa.load(load_path, sr=SR, duration=15.0)
