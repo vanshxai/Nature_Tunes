@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
 <title>NatureTunes</title>
 <style>
 *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
@@ -13,6 +13,26 @@ body {
   min-height: 100vh;
   font-family: -apple-system, BlinkMacSystemFont, 'SF Pro Display', 'Segoe UI', sans-serif;
   padding: 20px 16px;
+}
+
+/* ── NATIVE APP MODE: strip phone mockup shell ── */
+body.native {
+  padding: 0;
+  display: block;
+}
+body.native .phone {
+  width: 100vw;
+  height: 100dvh;
+  border-radius: 0;
+  padding: 0;
+  box-shadow: none;
+  background: #0b0f0b;
+}
+body.native .notch { display: none; }
+body.native .screen {
+  border-radius: 0;
+  padding-top: env(safe-area-inset-top);
+  padding-bottom: env(safe-area-inset-bottom);
 }
 
 /* ── PHONE SHELL ── */
@@ -850,8 +870,14 @@ textarea.field { resize: none; height: 100px; }
 
 <script>
 // ─── CONFIG ──────────────────────────────────────────────────────────────────
+const RAILWAY = 'https://devoted-youth-production.up.railway.app';
 const API = (location.hostname === 'localhost' || location.hostname === '127.0.0.1')
-  ? '' : 'https://devoted-youth-production.up.railway.app';
+  ? '' : RAILWAY;
+
+// Detect Capacitor native and go full-screen
+if (window.Capacitor && window.Capacitor.isNativePlatform && window.Capacitor.isNativePlatform()) {
+  document.body.classList.add('native');
+}
 
 // ─── STATE ───────────────────────────────────────────────────────────────────
 let selectedBird = null;
