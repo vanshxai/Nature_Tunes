@@ -871,13 +871,13 @@ textarea.field { resize: none; height: 100px; }
 <script>
 // ─── CONFIG ──────────────────────────────────────────────────────────────────
 const RAILWAY = 'https://devoted-youth-production.up.railway.app';
-const API = (location.hostname === 'localhost' || location.hostname === '127.0.0.1')
-  ? '' : RAILWAY;
 
-// Detect Capacitor native and go full-screen
-if (window.Capacitor && window.Capacitor.isNativePlatform && window.Capacitor.isNativePlatform()) {
-  document.body.classList.add('native');
-}
+// Native app always hits Railway; browser uses relative URLs only on localhost
+const isNative = window.Capacitor && window.Capacitor.isNativePlatform && window.Capacitor.isNativePlatform();
+const API = isNative ? RAILWAY
+  : (location.hostname === 'localhost' || location.hostname === '127.0.0.1') ? '' : RAILWAY;
+
+if (isNative) document.body.classList.add('native');
 
 // ─── STATE ───────────────────────────────────────────────────────────────────
 let selectedBird = null;
