@@ -13,6 +13,13 @@ import httpx
 from dotenv import load_dotenv
 load_dotenv()
 
+# Register static ffmpeg binary (works on Railway without system ffmpeg)
+try:
+    import static_ffmpeg
+    static_ffmpeg.add_paths()
+except Exception:
+    pass
+
 app = FastAPI(title="NatureTunes API", version="1.0.0")
 
 # When running locally: python -m uvicorn main:app --port 8765
