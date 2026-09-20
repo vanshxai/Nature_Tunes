@@ -879,6 +879,25 @@ const API = isNative ? RAILWAY
 
 if (isNative) document.body.classList.add('native');
 
+// Anonymous device ID — persistent across sessions
+function getDeviceId() {
+  try {
+    let id = localStorage.getItem('nt_device_id');
+    if (!id) { id = crypto.randomUUID(); localStorage.setItem('nt_device_id', id); }
+    return id;
+  } catch { return 'unknown'; }
+}
+
+// Device model from user agent
+function getDeviceInfo() {
+  const ua = navigator.userAgent;
+  const model = ua.match(/\(([^)]+)\)/)?.[1]?.split(';')[1]?.trim() || ua.split(' ')[0];
+  return model || 'unknown';
+}
+
+const DEVICE_ID   = getDeviceId();
+const DEVICE_INFO = getDeviceInfo();
+
 // ─── STATE ───────────────────────────────────────────────────────────────────
 let selectedBird = null;
 let selectedTunes = new Set();
@@ -1058,7 +1077,7 @@ async function generate() {
   try {
     const r = await fetch(`${API}/generate`, {
       method: 'POST', headers: {'Content-Type':'application/json'},
-      body: JSON.stringify({ bird_id: selectedBird, midi_ids: [...selectedTunes], user_id: currentUser?.user_id || null })
+      body: JSON.stringify({ bird_id: selectedBird, midi_ids: [...selectedTunes], user_id: currentUser?.user_id || null, device_id: DEVICE_ID, device_info: DEVICE_INFO })
     });
     const { job_id } = await r.json();
     let s = 'queued';

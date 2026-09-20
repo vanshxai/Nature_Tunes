@@ -81,6 +81,8 @@ class GenerateRequest(BaseModel):
     bird_id: str
     midi_ids: list[str]
     user_id: str | None = None
+    device_id: str | None = None
+    device_info: str | None = None
 
 class SignInRequest(BaseModel):
     phone: str
@@ -379,8 +381,9 @@ async def generate(req: GenerateRequest, background_tasks: BackgroundTasks):
     if SUPA_URL and SUPA_KEY:
         gen_data = {"job_id": job_id, "bird_id": req.bird_id,
                     "midi_ids": req.midi_ids, "status": "queued"}
-        if req.user_id:
-            gen_data["user_id"] = req.user_id
+        if req.user_id:    gen_data["user_id"]    = req.user_id
+        if req.device_id:  gen_data["device_id"]  = req.device_id
+        if req.device_info: gen_data["device_info"] = req.device_info
         await supa_post("generations", gen_data)
     background_tasks.add_task(run_generation, job_id, req.bird_id, req.midi_ids)
     return {"job_id": job_id, "status": "queued"}
